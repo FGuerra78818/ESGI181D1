@@ -7,11 +7,14 @@ class OptionsState extends ChangeNotifier {
   List<String> _selectedOptions = [];
   List<Pair<String, String>> _encoded = [];
   bool _hasBeenLoaded = false;
+  String _type = "VAT";
 
   List<int> get radioOptionsSelected => _radioOptionsSelected;
   List<String> get selectedOptions => _selectedOptions;
   List<Pair<String, String>> get encoded => _encoded;
   bool get hasBeenLoaded => _hasBeenLoaded;
+  String get type => _type;
+
 
   void togglehasBeenLoaded() {
     _hasBeenLoaded = !_hasBeenLoaded;
@@ -24,6 +27,10 @@ class OptionsState extends ChangeNotifier {
   }
   void radioToggle(int i){
     _radioOptionsSelected[i] = _radioOptionsSelected[i] == 1  ? 0: 1;
+  }
+
+  void updateType(String name){
+    _type = name;
   }
 
   void updateRadioOptionsSelected(List<int> newSelection) {

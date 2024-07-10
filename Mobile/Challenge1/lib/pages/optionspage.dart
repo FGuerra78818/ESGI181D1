@@ -28,6 +28,7 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   void initState() {
     super.initState();
+    _type = Provider.of<OptionsState>(context, listen: false).type == "VAT" ? RecipientTypes.vat : RecipientTypes.barrel;
     loadJsonData();
   }
 
@@ -356,6 +357,7 @@ class _OptionsPageState extends State<OptionsPage> {
   void updateOptionState(){
     Provider.of<OptionsState>(context, listen: false).updateSelectedOptions(_selectedOptions);
     Provider.of<OptionsState>(context, listen: false).updateRadioOptionsSelected(_radioOptionsSelected);
+    Provider.of<OptionsState>(context, listen: false).updateType(_type == RecipientTypes.vat ? "VAT" : "BARREl");
     print("save : ${Provider.of<OptionsState>(context, listen: false).radioOptionsSelected}");
   }
   void loadOptionState(){
