@@ -1,5 +1,8 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'homepage.dart';
@@ -16,12 +19,47 @@ class ValuesPage extends StatefulWidget {
 class _ValuesPage extends State<ValuesPage> {
 
   @override
+  void initState() {
+    super.initState();
+    loadJsonData();
+  }
+  Map<String, dynamic>? _neededValues;
+
+  Future<void> loadJsonData() async {
+    try {
+      final String jsonString = await rootBundle.loadString('assets/config/neededValues.json');
+      Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
+      print('Parsed JSON: $jsonOptions'); // Debug print
+      setState(() {
+        _neededValues = jsonOptions;
+        decodeJson(); // Initialize options based on default type (VAT)
+      });
+    } catch (e) {
+      print('Error loading options.json: $e');
+      // Handle error loading JSON data
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xffB4D8F9),
-        bottomNavigationBar: buildBottomNavigationBar());
-    //body: buildSingleChildScrollView());
+        bottomNavigationBar: buildBottomNavigationBar(),
+        body: buildSingleChildScrollView());
   }
+
+  Widget buildSingleChildScrollView() {
+    return const SingleChildScrollView(
+      child: Column (
+        children: [Text("a")],
+      )
+
+    );
+  }
+
+
+
+
 
 
   BottomNavigationBar buildBottomNavigationBar() {
@@ -75,4 +113,13 @@ class _ValuesPage extends State<ValuesPage> {
         break;
     }
   }
+  void decodeJson() {
+    if (_neededValues != null) {
+      _neededValues!["NEEDEDVALUES"][""].forEach((key, value) {
+
+      });
+      }
+
+    }
+
 }

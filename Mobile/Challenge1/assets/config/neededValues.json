@@ -1,0 +1,32 @@
+{
+  "NEEDEDVALUES": {
+    "VAT": {
+      "BASELINE": ["placeholder1", "placeholder2"],
+      "RADIAL": {
+        "Body": {
+          "Cylinder" : ["placeholderc1"],
+          "Cone" : ["placeholderc2", "placeholderc3"]
+        },
+        "Neck Position": {
+        },
+        "Door": {
+        },
+        "Top": {
+        },
+        "Door Shape": {
+        }
+        },
+      "CHECKBOX": {
+        "Hosepipe": {
+        },
+        "Lower Cone": {
+        }
+      }
+    },
+    "BARREL" : {
+      "BASELINE" : {
+
+      }
+    }
+  }
+}
