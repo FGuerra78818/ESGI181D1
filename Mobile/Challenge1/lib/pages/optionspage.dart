@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:challenge1/pages/valuespage.dart';
 import 'package:challenge1/pages/homepage.dart';
@@ -6,8 +9,10 @@ import 'package:challenge1/pages/homepage.dart';
 
 enum RecipientTypes { vat, barrel }
 
+
 class OptionsPage extends StatefulWidget {
   const OptionsPage({super.key});
+
 
   @override
   State<StatefulWidget> createState() {
@@ -16,20 +21,49 @@ class OptionsPage extends StatefulWidget {
 }
 
 class _OptionsPageState extends State<OptionsPage> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    loadJsonData();
+  }
+
+
+  final List<List<dynamic>> _vatRadioOptions = [];
   RecipientTypes? _type = RecipientTypes.vat;
-  List<String> _options = ["Hosepipe", "Lower cone"];
+  List<String> _options = [];
   // Header Name, Option 1, Option 2
-  List<List<String>> _radioOptions = [ ["Body", "Cylinder","Cone"], ["Neck Position","Center","Side"], ["Door","Inside","Outside"], ["Top","Cone","Flat"], ["Door", "Cubic", "Elipsal"]];
-  List<int> _radioOptionsSelected = [0,0,0,0,0];
+  List<List<String>> _radioOptions = [];
+  List<int> _radioOptionsSelected = [];
   List<String> _selectedOptions = [];
-  
+  Map<String, dynamic>? _optionsJson;
+
+
+  Future<void> loadJsonData() async {
+    try {
+      final String jsonString = await rootBundle.loadString('assets/config/options.json');
+      Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
+      print('Parsed JSON: $jsonOptions'); // Debug print
+      setState(() {
+        _optionsJson = jsonOptions;
+        _updateOptions(); // Initialize options based on default type (VAT)
+      });
+    } catch (e) {
+      print('Error loading options.json: $e');
+      // Handle error loading JSON data
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffB4D8F9),
       bottomNavigationBar: buildBottomNavigationBar(),
-      body: buildSingleChildScrollView(),
+      body: _optionsJson == null
+          ? const Center(child: CircularProgressIndicator())
+          : buildSingleChildScrollView(),
     );
   }
 
@@ -59,34 +93,34 @@ class _OptionsPageState extends State<OptionsPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                child: ListTile(
-                  title: const Text('Vat'),
-                  leading: Radio<RecipientTypes>(
-                    value: RecipientTypes.vat,
-                    groupValue: _type,
-                    onChanged: (RecipientTypes? value) {
-                      setState(() {
-                        _type = value;
-                        _updateOptions();
-                      });
-                    },
+                  child: ListTile(
+                    title: const Text('Vat'),
+                    leading: Radio<RecipientTypes>(
+                      value: RecipientTypes.vat,
+                      groupValue: _type,
+                      onChanged: (RecipientTypes? value) {
+                        setState(() {
+                          _type = value;
+                          _updateOptions();
+                        });
+                      },
+                    ),
                   ),
                 ),
-              ),
                 Expanded(
-                child: ListTile(
-                  title: const Text('Barrel'),
-                  leading: Radio<RecipientTypes>(
-                    value: RecipientTypes.barrel,
-                    groupValue: _type,
-                    onChanged: (RecipientTypes? value) {
-                      setState(() {
-                        _type = value;
-                        _updateOptions();
-                      });
-                    },
+                  child: ListTile(
+                    title: const Text('Barrel'),
+                    leading: Radio<RecipientTypes>(
+                      value: RecipientTypes.barrel,
+                      groupValue: _type,
+                      onChanged: (RecipientTypes? value) {
+                        setState(() {
+                          _type = value;
+                          _updateOptions();
+                        });
+                      },
+                    ),
                   ),
-                ),
                 ),
               ],
             ),
@@ -99,39 +133,39 @@ class _OptionsPageState extends State<OptionsPage> {
                   Column(
                     children: [
                       Align(
-                      alignment: Alignment.centerLeft,
+                        alignment: Alignment.centerLeft,
 
-                      child: Padding(
-                         padding: EdgeInsets.only(left: 16.0),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
 
-                      child: Text(_radioOptions[i][0],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),),),),
+                          child: Text(_radioOptions[i][0],
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),),),),
                       Row(
                         children: [
-                      for (int j = 1; j < 3 ; j++)
-                        Expanded(
-                          child: ListTile(
-                            title: Text(_radioOptions[i][j]),
-                            leading: Radio<String>(
-                              value: _radioOptions[i][j],
-                              groupValue: _radioOptions[i][_radioOptionsSelected[i]+1],
-                              onChanged: (String? value) {
-                                setState(() {
-                                  _updateRadialOptions(i,j);
-                                });
-                              },
-                            ),
-                          )),
-                          ],),
-                        ],
-                    ),],
-                  ),
+                          for (int j = 1; j < 3 ; j++)
+                            Expanded(
+                                child: ListTile(
+                                  title: Text(_radioOptions[i][j]),
+                                  leading: Radio<String>(
+                                    value: _radioOptions[i][j],
+                                    groupValue: _radioOptions[i][_radioOptionsSelected[i]+1],
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _updateRadialOptions(i,j);
+                                      });
+                                    },
+                                  ),
+                                )),
+                        ],),
+                    ],
+                  ),],
             ),
+          ),
 
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -212,12 +246,38 @@ class _OptionsPageState extends State<OptionsPage> {
 
   }
   void _updateOptions() {
-    if (_type == RecipientTypes.vat) {
-      _options = ["Hosepipe", "Lower cone"];
-      _radioOptions = [ ["Body", "Cylinder","Cone"], ["Top","Centered","OffCentered"], ["Door","Inside","Outside"], ["Top","Cone","Flat"], ["Door", "Rectangular", "Elipsal"]];
-    } else if (_type == RecipientTypes.barrel) {
-      _options = [];
-      _radioOptions = [["Type","Porto","Normal"]];
+    String toDecode = "";
+    if (_type == RecipientTypes.vat){
+      toDecode = "VAT";
+    }
+    else if (_type == RecipientTypes.barrel){
+      toDecode = "BARREL";
+    }
+    if (_optionsJson != null) {
+
+      _radioOptions.clear();
+      _options.clear();
+      if (_optionsJson!["OPTIONS"][toDecode].containsKey("CHECKBOX")){
+        _optionsJson!["OPTIONS"][toDecode]["CHECKBOX"].forEach((key){
+        _options.add(key);
+      });}
+
+      _vatRadioOptions.clear();
+      if (_optionsJson!["OPTIONS"][toDecode].containsKey("RADIAL")){
+      _optionsJson!["OPTIONS"][toDecode]["RADIAL"].forEach((key, value) {
+        List<dynamic> optionList = [key];
+        optionList.addAll(value.cast<String>());
+        _vatRadioOptions.add(optionList);});}
+      _radioOptions = _vatRadioOptions.map((innerList) {
+        return innerList.map((element) => element.toString()).toList();
+      }).toList();
+
+      _radioOptionsSelected.clear();
+      for (int i = 0; i< _radioOptions.length; i++){
+        _radioOptionsSelected.add(0);
+      }
+
+      _selectedOptions.clear();
     }
   }
 
@@ -243,4 +303,6 @@ class _OptionsPageState extends State<OptionsPage> {
         break;
     }
   }
+
+
 }

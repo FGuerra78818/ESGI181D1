@@ -1,3 +1,19 @@
 {
-  "RADIALOPTIONS"
+  "OPTIONS":{
+    "VAT": {
+      "RADIAL": {
+        "Body" : ["Cylinder", "Cone"],
+        "Neck Position" : ["Center", "Side"],
+        "Door" : ["Inside", "Outside"],
+        "Top" : ["Cone", "Flat"],
+        "Door Shape" : ["Cubic", "Elipsal"]
+      },
+      "CHECKBOX": ["Hosepipe", "Lower Cone"]
+    },
+    "BARREL" : {
+      "RADIAL": {
+        "Type" : ["Normal", "Porto"]
+      }
+    }
+  }
 }
