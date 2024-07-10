@@ -1,9 +1,11 @@
 
 import 'dart:convert';
 
+import 'package:challenge1/pages/optionState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import 'homepage.dart';
 import 'optionspage.dart';
@@ -21,8 +23,11 @@ class _ValuesPage extends State<ValuesPage> {
   @override
   void initState() {
     super.initState();
+    _type = Provider.of<OptionsState>(context, listen: false).type;
     loadJsonData();
   }
+  String _type = "VAT";
+
   Map<String, dynamic>? _neededValues;
 
   Future<void> loadJsonData() async {
@@ -43,7 +48,7 @@ class _ValuesPage extends State<ValuesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xffB4D8F9),
+        backgroundColor: const Color(0xFFFFFAEB),
         bottomNavigationBar: buildBottomNavigationBar(),
         body: buildSingleChildScrollView());
   }
@@ -64,7 +69,7 @@ class _ValuesPage extends State<ValuesPage> {
 
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: const Color(0xff5B92C6),
+      backgroundColor: const Color(0xAAFFD447),
       currentIndex: 2,
       onTap: _navigate,
       selectedItemColor: Colors.white,
@@ -115,7 +120,7 @@ class _ValuesPage extends State<ValuesPage> {
   }
   void decodeJson() {
     if (_neededValues != null) {
-      _neededValues!["NEEDEDVALUES"][""].forEach((key, value) {
+      _neededValues!["NEEDEDVALUES"][_type].forEach((key, value) {
 
       });
       }

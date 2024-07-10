@@ -53,7 +53,6 @@ class _OptionsPageState extends State<OptionsPage> {
       setState(() {
         _optionsJson = jsonOptions;
         _updateOptions();
-        print("ola ${Provider.of<OptionsState>(context, listen: false).hasBeenLoaded}");
         if (Provider.of<OptionsState>(context, listen: false).hasBeenLoaded) {
           loadOptionState();
         } else{
@@ -71,7 +70,7 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffB4D8F9),
+      backgroundColor: const Color(0xFFFFFAEB),
       bottomNavigationBar: buildBottomNavigationBar(),
       body: _optionsJson == null
           ? const Center(child: CircularProgressIndicator())
@@ -210,7 +209,7 @@ class _OptionsPageState extends State<OptionsPage> {
 
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: const Color(0xff5B92C6),
+      backgroundColor: const Color(0xAAFFD447),
       currentIndex: 1,
       onTap: _navigate,
       selectedItemColor: Colors.white,
@@ -358,12 +357,10 @@ class _OptionsPageState extends State<OptionsPage> {
     Provider.of<OptionsState>(context, listen: false).updateSelectedOptions(_selectedOptions);
     Provider.of<OptionsState>(context, listen: false).updateRadioOptionsSelected(_radioOptionsSelected);
     Provider.of<OptionsState>(context, listen: false).updateType(_type == RecipientTypes.vat ? "VAT" : "BARREl");
-    print("save : ${Provider.of<OptionsState>(context, listen: false).radioOptionsSelected}");
   }
   void loadOptionState(){
     _selectedOptions = Provider.of<OptionsState>(context, listen: false).selectedOptions;
     _radioOptionsSelected = Provider.of<OptionsState>(context, listen: false).radioOptionsSelected;
-    print("Load : ${Provider.of<OptionsState>(context, listen: false).radioOptionsSelected}");
 
   }
 }

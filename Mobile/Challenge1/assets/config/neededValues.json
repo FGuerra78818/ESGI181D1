@@ -1,7 +1,7 @@
 {
   "NEEDEDVALUES": {
     "VAT": {
-      "BASELINE": ["placeholder1", "placeholder2"],
+      "BASELINE": ["AlturaMax", "placeholder2"],
       "RADIAL": {
         "Body": {
           "Cylinder" : ["placeholderc1"],

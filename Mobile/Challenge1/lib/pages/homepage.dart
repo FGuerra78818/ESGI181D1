@@ -19,7 +19,7 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xffB4D8F9),
+        backgroundColor: const Color(0xFFFFFAEB),
         bottomNavigationBar: buildBottomNavigationBar());
         //body: buildSingleChildScrollView());
   }
@@ -27,7 +27,7 @@ class _HomePage extends State<HomePage> {
 
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: const Color(0xff5B92C6),
+      backgroundColor: const Color(0xAAFFD447),
       currentIndex: 0,
       onTap: _navigate,
       selectedItemColor: Colors.white,
