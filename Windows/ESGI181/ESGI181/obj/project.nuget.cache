@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "TAZ5PBSmjkUoTpfK07GsCWrksGaIMprWMby9REN2QtiV8k2smCSVkEpejyDsxyjYKxF4LZ/RrsRqqWAxUJzpTA==",
+  "dgSpecHash": "hedxcGy4tXiKO7Qwg5BBcJo7/ozwoDzA5R8Y/Ary9TKDhAxOZNQCcod3B0mKISDzXwpPGdy4P8Uqbi8ieS9cDg==",
   "success": true,
   "projectFilePath": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\ESGI181.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\franc\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22000.31\\microsoft.windows.sdk.net.ref.10.0.22000.31.nupkg.sha512"
+  ],
   "logs": []
 }

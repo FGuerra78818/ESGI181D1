@@ -39,32 +39,35 @@ namespace ESGI181
                 decimal AlturaPequenaPescoço = decimal.Parse(AlturaPequenaPescoçoTextBox.Text);
                 decimal DiametroBase = decimal.Parse(DiametroBaseTextBox.Text);
                 decimal RaioBase = DiametroBase / 2m;
-                decimal AlturaBase = decimal.Parse(AlturaBaseTextBox.Text);
                 decimal DiametroPequenoPorta = decimal.Parse(DiametroPequenoElipseTextBox.Text);
-                decimal RaioPequenoPorta = DiametroPequenoPorta / 2m;
                 decimal DiametroGrandePorta = decimal.Parse(DiametroGrandeElipseTextBox.Text);
-                decimal RaioGrandePorta = DiametroGrandePorta / 2m;
                 decimal Espessura = decimal.Parse(EspessuraTextBox.Text);
                 decimal VolumePorta = 0;
                 decimal RaioBaixoTopo = 0;
 
                 if (ConeBaseCheckBox.IsChecked == true)
                 {
+                    decimal Hipotenusa = decimal.Parse(AlturaBaseTextBox.Text);
+
+                    decimal cateto = (RaioBase - RaioBaixoTopo);
+                    decimal AlturaBase = (decimal)Math.Sqrt((double)(Hipotenusa * Hipotenusa - cateto * cateto));
+
                     RaioBaixoTopo = decimal.Parse(DiametroBaixoTopoTextBox.Text) / 2m;
 
                     // Calcular a area da base
-                    decimal AreaBase = (decimal)Math.PI * RaioBase * RaioBase;
+                    decimal AreaBase = (1m / 3m) * (decimal)Math.PI * AlturaBase * ((RaioBaixoTopo * RaioBaixoTopo) + (RaioPescoço * RaioPescoço) + (RaioPescoço * RaioBaixoTopo));
 
                     // Calcular o volume do cone
                     decimal VolumeBase = (1 / 3) * (decimal)Math.PI * RaioBase * RaioBase * AlturaBase;
                     VolumeTotal = VolumeTotal + VolumeBase;
 
-                    Resultado.Content = VolumeTotal;
-                    MessageBox.Show("Cone Base");
+                    VolumeBaseLabel.Content = (VolumeBase / 1000m).ToString("F3");
                 }
 
                 if (CilindroBaseCheckBox.IsChecked == true)
                 {
+                    decimal AlturaBase = decimal.Parse(AlturaBaseTextBox.Text);
+
                     // Calcular a area da base
                     decimal AreaBase = (decimal)Math.PI * RaioBase * RaioBase;
 
@@ -74,17 +77,14 @@ namespace ESGI181
 
                     RaioBaixoTopo = RaioBase;
 
-                    Resultado.Content = VolumeTotal;
-                    MessageBox.Show("Cilindro Base");
+                    VolumeBaseLabel.Content = (VolumeBase / 1000m).ToString("F3");
                 }
 
                 if (CentradoCheckBox.IsChecked == true && ConeTopoCheckBox.IsChecked == true)
                 {
                     decimal Hipotenusa = decimal.Parse(HipotenusaTextBox.Text);
                     decimal cateto = (RaioBaixoTopo - RaioPescoço);
-                    MessageBox.Show(cateto.ToString());
                     decimal AlturaTopo = (decimal)Math.Sqrt((double)(Hipotenusa * Hipotenusa - cateto * cateto));
-                    MessageBox.Show(AlturaTopo.ToString());
 
                     // Calcular o volume
                     decimal VolumePescoço = (decimal)Math.PI * RaioPescoço * RaioPescoço * AlturaPescoço;
@@ -92,8 +92,8 @@ namespace ESGI181
 
                     VolumeTotal = VolumeTotal + VolumePescoço + VolumeTopo;
 
-                    Resultado.Content = VolumePescoço + VolumeTopo;
-                    MessageBox.Show("Cone Topo e Centrado");
+                    VolumePescoçoLabel.Content = (VolumePescoço / 1000m).ToString("F3");
+                    VolumeTopoLabel.Content = (VolumeTopo / 1000m).ToString("F3");
                 }
 
                 if (NaoCentradoCheckBox.IsChecked == true && ConeTopoCheckBox.IsChecked == true)
@@ -107,54 +107,63 @@ namespace ESGI181
 
                     VolumeTotal = VolumeTotal + VolumePescoço + VolumeTopo;
 
-                    Resultado.Content = VolumePescoço + VolumeTopo;
-                    MessageBox.Show("Cone Topo e Não Centrado");
+                    VolumePescoçoLabel.Content = (VolumePescoço / 1000m).ToString("F3");
+                    VolumeTopoLabel.Content = (VolumeTopo / 1000m).ToString("F3");
                 }
 
                 if (FundoSimCheckBox.IsChecked == true)
                 {
-                    decimal AlturaFundo = decimal.Parse(AlturaFundoTextBox.Text);
+                    decimal HipotenusaFundo = decimal.Parse(HipotenusaFundoTextBox.Text);
+                    decimal DiametroTubo = decimal.Parse(DiametroTuboTextBox.Text);
+                    decimal RaioTubo = DiametroTubo / 2m;
+                    decimal ComprimentoTubo = decimal.Parse(ComprimentoTuboTextBox.Text);
+
+                    decimal cateto = (RaioBase - RaioTubo);
+
+                    decimal AlturaFundo = (decimal)Math.Sqrt((double)(HipotenusaFundo * HipotenusaFundo - cateto * cateto));
+
 
                     // Calcular a area da base
                     decimal AreaBase = (decimal)Math.PI * RaioBase * RaioBase;
 
-                    // Calcular o volume do cone
-                    decimal VolumeFundo = (1 / 3) * (decimal)Math.PI * RaioBase * RaioBase * AlturaFundo;
-                    VolumeTotal = VolumeTotal + VolumeFundo;
+                    decimal AreaBaseTubo = (decimal)Math.PI * RaioBase * RaioBase;
 
-                    Resultado.Content = VolumeFundo;
-                    MessageBox.Show("Fundo");
+                    // Calcular o volume do cone
+                    decimal VolumeTroncoFundo = (1m / 3m) * (decimal)Math.PI * AlturaFundo * ((RaioBaixoTopo * RaioBaixoTopo) + (RaioPescoço * RaioPescoço) + (RaioPescoço * RaioBaixoTopo));
+
+                    decimal VolumeTuboFundo = AreaBaseTubo * ComprimentoTubo;
+
+                    VolumeTotal = VolumeTotal + VolumeTroncoFundo + VolumeTuboFundo;
+
+                    VolumeFundoLabel.Content = ((VolumeTroncoFundo + VolumeTuboFundo) / 1000m).ToString("F3");
                 }
 
                 if (PortaOvalCheckBox.IsChecked == true)
                 {
-                    VolumePorta = ((decimal)Math.PI * RaioPequenoPorta * RaioGrandePorta) * Espessura;
+                    decimal RaioPequenoPorta = DiametroPequenoPorta / 2m;
+                    decimal RaioGrandePorta = DiametroGrandePorta / 2m;
 
-                    MessageBox.Show("Porta Oval");
+                    VolumePorta = ((decimal)Math.PI * RaioPequenoPorta * RaioGrandePorta) * Espessura;
                 }
 
                 if (PortaRetangularCheckBox.IsChecked == true)
                 {
                     VolumePorta = RaioPequenoPorta * RaioGrandePorta * Espessura;
-
-                    MessageBox.Show("Porta Retangular");
                 }
 
                 if (PortaDentroCheckBox.IsChecked == true)
                 {
                     VolumeTotal = VolumeTotal - VolumePorta;
 
-                    Resultado.Content = VolumePorta;
-                    MessageBox.Show("Porta Dentro");
+                    VolumePortaLabel.Content = (VolumePorta / 1000m).ToString("F3");
                 }
                 else
                 {
                     VolumeTotal = VolumeTotal + VolumePorta;
 
-                    Resultado.Content = VolumePorta;
-                    MessageBox.Show("Porta Fora");
+                    VolumePortaLabel.Content = (VolumePorta / 1000m).ToString("F3");
                 }
-                Resultado.Content = VolumeTotal;
+                Resultado.Content = (VolumeTotal / 1000m).ToString("F3");
             }
             catch (FormatException)
             {
@@ -178,6 +187,10 @@ namespace ESGI181
             if ((sender == CentradoCheckBox || sender == NaoCentradoCheckBox) && (CentradoCheckBox.IsChecked == false) && (NaoCentradoCheckBox.IsChecked == false))
             {
                 CentradoCheckBox.IsChecked = true;
+                ConeTopo.Visibility = Visibility.Collapsed;
+                PescoçoNaoCentrado.Visibility = Visibility.Collapsed;
+                TroncoTopo.Visibility = Visibility.Visible;
+                PescoçoCentrado.Visibility = Visibility.Visible;
                 AlturaPequenaPescoço.Content = "Altura Pescoço (a)";
                 AlturaGrandePescoço.Visibility = Visibility.Collapsed;
                 AlturaGrandePescoçoTextBox.Visibility = Visibility.Collapsed;
@@ -187,6 +200,10 @@ namespace ESGI181
             if (sender == CentradoCheckBox && CentradoCheckBox.IsChecked == true)
             {
                 NaoCentradoCheckBox.IsChecked = false;
+                ConeTopo.Visibility = Visibility.Collapsed;
+                PescoçoNaoCentrado.Visibility = Visibility.Collapsed;
+                TroncoTopo.Visibility = Visibility.Visible;
+                PescoçoCentrado.Visibility = Visibility.Visible;
                 AlturaPequenaPescoço.Content = "Altura Pescoço (a)";
                 AlturaGrandePescoço.Visibility = Visibility.Collapsed;
                 AlturaGrandePescoçoTextBox.Visibility = Visibility.Collapsed;
@@ -196,6 +213,10 @@ namespace ESGI181
             else if (sender == NaoCentradoCheckBox && NaoCentradoCheckBox.IsChecked == true)
             {
                 CentradoCheckBox.IsChecked = false;
+                ConeTopo.Visibility = Visibility.Visible;
+                PescoçoNaoCentrado.Visibility = Visibility.Visible;
+                TroncoTopo.Visibility = Visibility.Collapsed;
+                PescoçoCentrado.Visibility = Visibility.Collapsed;
                 AlturaPequenaPescoço.Content = "Altura Pequena (ap)";
                 AlturaGrandePescoço.Visibility = Visibility.Visible;
                 AlturaGrandePescoçoTextBox.Visibility = Visibility.Visible;
@@ -223,20 +244,59 @@ namespace ESGI181
             if ((sender == ConeBaseCheckBox || sender == CilindroBaseCheckBox) && (ConeBaseCheckBox.IsChecked == false) && (CilindroBaseCheckBox.IsChecked == false))
             {
                 CilindroBaseCheckBox.IsChecked = true;
+                if (FundoSimCheckBox.IsChecked == true)
+                {
+                    Fundo.Visibility = Visibility.Visible;
+                    Fundo1.Visibility = Visibility.Collapsed;
+                }
+                if (FundoNaoCheckBox.IsChecked == true)
+                {
+                    Fundo.Visibility = Visibility.Collapsed;
+                    Fundo1.Visibility = Visibility.Collapsed;
+                }
+                CilindroBase.Visibility = Visibility.Visible;
+                TroncoBase.Visibility = Visibility.Collapsed;
                 DiametroBaixoTopo.Visibility = Visibility.Collapsed;
                 DiametroBaixoTopoTextBox.Visibility = Visibility.Collapsed;
+                AlturaBase.Content = "Altura Base (A):";
             }
             if (sender == CilindroBaseCheckBox && CilindroBaseCheckBox.IsChecked == true)
             {
                 ConeBaseCheckBox.IsChecked = false;
+                if (FundoSimCheckBox.IsChecked == true)
+                {
+                    Fundo.Visibility = Visibility.Visible;
+                    Fundo1.Visibility = Visibility.Collapsed;
+                }
+                if (FundoNaoCheckBox.IsChecked == true)
+                {
+                    Fundo.Visibility = Visibility.Collapsed;
+                    Fundo1.Visibility = Visibility.Collapsed;
+                }
+                CilindroBase.Visibility = Visibility.Visible;
+                TroncoBase.Visibility = Visibility.Collapsed;
                 DiametroBaixoTopo.Visibility = Visibility.Collapsed;
                 DiametroBaixoTopoTextBox.Visibility = Visibility.Collapsed;
+                AlturaBase.Content = "Altura Base (A):";
             }
             else if (sender == ConeBaseCheckBox && ConeBaseCheckBox.IsChecked == true)
             {
                 CilindroBaseCheckBox.IsChecked = false;
+                if (FundoSimCheckBox.IsChecked == true)
+                {
+                    Fundo.Visibility = Visibility.Collapsed;
+                    Fundo1.Visibility = Visibility.Visible;
+                }
+                if (FundoNaoCheckBox.IsChecked == true)
+                {
+                    Fundo.Visibility = Visibility.Collapsed;
+                    Fundo1.Visibility = Visibility.Collapsed;
+                }
+                CilindroBase.Visibility = Visibility.Collapsed;
+                TroncoBase.Visibility = Visibility.Visible;
                 DiametroBaixoTopo.Visibility = Visibility.Visible;
                 DiametroBaixoTopoTextBox.Visibility = Visibility.Visible;
+                AlturaBase.Content = "Hipotenusa Base (H):";
             }
 
             /*---------------------------------------------------*/
@@ -244,20 +304,46 @@ namespace ESGI181
             if ((sender == FundoSimCheckBox || sender == FundoNaoCheckBox) && (FundoSimCheckBox.IsChecked == false) && (FundoNaoCheckBox.IsChecked == false))
             {
                 FundoNaoCheckBox.IsChecked = true;
-                AlturaFundo.Visibility = Visibility.Collapsed;
-                AlturaFundoTextBox.Visibility = Visibility.Collapsed;
+                ComprimentoTuboTextBox.Visibility = Visibility.Collapsed;
+                ComprimentoTubo.Visibility = Visibility.Collapsed;
+                DiametroTuboTextBox.Visibility = Visibility.Collapsed;
+                DiametroTubo.Visibility = Visibility.Collapsed;
+                Fundo.Visibility = Visibility.Collapsed;
+                Fundo1.Visibility = Visibility.Collapsed;
+                HipotenusaFundo.Visibility = Visibility.Collapsed;
+                HipotenusaFundo.Visibility = Visibility.Collapsed;
             }
             if (sender == FundoSimCheckBox && FundoSimCheckBox.IsChecked == true)
             {
                 FundoNaoCheckBox.IsChecked = false;
-                AlturaFundo.Visibility = Visibility.Visible;
-                AlturaFundoTextBox.Visibility = Visibility.Visible;
+                if (ConeBaseCheckBox.IsChecked == true)
+                {
+                    Fundo.Visibility = Visibility.Collapsed;
+                    Fundo1.Visibility = Visibility.Visible;
+                }
+                if (CilindroBaseCheckBox.IsChecked == true)
+                {
+                    Fundo.Visibility = Visibility.Visible;
+                    Fundo1.Visibility = Visibility.Collapsed;
+                }
+                HipotenusaFundo.Visibility = Visibility.Visible;
+                HipotenusaFundoTextBox.Visibility = Visibility.Visible;
+                ComprimentoTuboTextBox.Visibility = Visibility.Visible;
+                ComprimentoTubo.Visibility = Visibility.Visible;
+                DiametroTuboTextBox.Visibility = Visibility.Visible;
+                DiametroTubo.Visibility = Visibility.Visible;
             }
             else if (sender == FundoNaoCheckBox && FundoNaoCheckBox.IsChecked == true)
             {
                 FundoSimCheckBox.IsChecked = false;
-                AlturaFundo.Visibility = Visibility.Collapsed;
-                AlturaFundoTextBox.Visibility = Visibility.Collapsed;
+                Fundo.Visibility = Visibility.Collapsed;
+                Fundo1.Visibility = Visibility.Collapsed;
+                HipotenusaFundo.Visibility = Visibility.Collapsed;
+                HipotenusaFundoTextBox.Visibility = Visibility.Collapsed;
+                ComprimentoTuboTextBox.Visibility = Visibility.Collapsed;
+                ComprimentoTubo.Visibility = Visibility.Collapsed;
+                DiametroTuboTextBox.Visibility = Visibility.Collapsed;
+                DiametroTubo.Visibility = Visibility.Collapsed;
             }
 
             /*---------------------------------------------------*/

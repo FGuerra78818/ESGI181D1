@@ -1,0 +1,4 @@
+C:\Users\franc\source\repos\FGuerra78818\ESGI181D1\Windows\ESGI181\ESGI181\obj\Debug\net8.0-windows10.0.22000.0\MainWindow.g.cs
+C:\Users\franc\source\repos\FGuerra78818\ESGI181D1\Windows\ESGI181\ESGI181\obj\Debug\net8.0-windows10.0.22000.0\App.g.cs
+C:\Users\franc\source\repos\FGuerra78818\ESGI181D1\Windows\ESGI181\ESGI181\obj\Debug\net8.0-windows10.0.22000.0\ESGI181_MarkupCompile.cache
+C:\Users\franc\source\repos\FGuerra78818\ESGI181D1\Windows\ESGI181\ESGI181\obj\Debug\net8.0-windows10.0.22000.0\ESGI181_MarkupCompile.lref
