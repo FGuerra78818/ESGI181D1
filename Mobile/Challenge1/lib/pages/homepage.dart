@@ -20,8 +20,26 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFFFFAEB),
+        appBar: buildAppBar(),
         bottomNavigationBar: buildBottomNavigationBar());
         //body: buildSingleChildScrollView());
+  }
+  AppBar buildAppBar() {
+    return AppBar(
+      title: const Text('Cubicagem',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w800),),
+      centerTitle: true,
+      backgroundColor: const Color(0xAAFFD447),
+      //actions: [
+      /*
+        IconButton(
+          icon: Icon(Icons.more_vert),
+          onPressed: () {
+            // Implement more options functionality here
+            print('More button pressed');
+          },
+        ),
+     ],*/
+    );
   }
 
 
@@ -50,6 +68,7 @@ class _HomePage extends State<HomePage> {
       unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,),
     );
   }
+
   _navigate(int index) {
     switch (index) {
       case 0:

@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:pair/pair.dart';
 
@@ -8,13 +9,14 @@ class OptionsState extends ChangeNotifier {
   List<Pair<String, String>> _encoded = [];
   bool _hasBeenLoaded = false;
   String _type = "VAT";
+  Map<String,Decimal> _valuesMapped = <String,Decimal>{};
 
   List<int> get radioOptionsSelected => _radioOptionsSelected;
   List<String> get selectedOptions => _selectedOptions;
   List<Pair<String, String>> get encoded => _encoded;
   bool get hasBeenLoaded => _hasBeenLoaded;
   String get type => _type;
-
+  Map<String,Decimal> get valuesMapped => _valuesMapped;
 
   void togglehasBeenLoaded() {
     _hasBeenLoaded = !_hasBeenLoaded;
@@ -51,6 +53,8 @@ class OptionsState extends ChangeNotifier {
   bool hasSelectedOption(String name){
     return _selectedOptions.contains(name);
   }
-
-
+  void updateValuesMapped(Map<String,Decimal> newValuesMapped){
+    _valuesMapped = newValuesMapped;
+    notifyListeners();
+  }
 }

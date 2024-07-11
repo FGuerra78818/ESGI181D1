@@ -8,12 +8,21 @@
           "Cone" : ["placeholderc2", "placeholderc3"]
         },
         "Neck Position": {
-        },
-        "Door": {
+          "Center" : ["ph1"],
+          "Side" : ["ph2"]
         },
         "Top": {
+          "Cone" : ["Topph1"],
+          "Flat" : ["Topph2"]
         },
+        "Door": {
+          "Inside" : ["Depht"],
+          "Outside" : ["Depth"]
+        },
+
         "Door Shape": {
+          "Cubic" : ["Bigger Side","Smaller Side"],
+          "Elipsal" : ["Smaller Diameter", "Bigger Diameter"]
         }
         },
       "CHECKBOX": {

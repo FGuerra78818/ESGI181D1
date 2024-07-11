@@ -34,7 +34,7 @@ class _OptionsPageState extends State<OptionsPage> {
 
   final List<List<dynamic>> _vatRadioOptions = [];
   RecipientTypes? _type = RecipientTypes.vat;
-  List<String> _options = [];
+  final List<String> _options = [];
 
   // Header Name, Option 1, Option 2
   List<List<String>> _radioOptions = [];
@@ -71,6 +71,7 @@ class _OptionsPageState extends State<OptionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFAEB),
+      appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
       body: _optionsJson == null
           ? const Center(child: CircularProgressIndicator())
@@ -78,6 +79,23 @@ class _OptionsPageState extends State<OptionsPage> {
     );
   }
 
+  AppBar buildAppBar() {
+    return AppBar(
+      title: const Text('Cubicagem',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w800),),
+      centerTitle: true,
+      backgroundColor: const Color(0xAAFFD447),
+      //actions: [
+      /*
+        IconButton(
+          icon: Icon(Icons.more_vert),
+          onPressed: () {
+            // Implement more options functionality here
+            print('More button pressed');
+          },
+        ),
+     ],*/
+    );
+  }
   Widget buildSingleChildScrollView() {
     final double screenHeight = MediaQuery
         .of(context)
@@ -318,6 +336,7 @@ class _OptionsPageState extends State<OptionsPage> {
       case 2:
         //print("olá: ${Provider.of<OptionsState>(context).selectedOptions} , ${Provider.of<OptionsState>(context).radioOptionsSelected} ");
         List<Pair<String, String>> encoded = encodeRadioSelection();
+        Provider.of<OptionsState>(context, listen: false).updateEncoded(encoded);
         Navigator.of(context).push(PageRouteBuilder(
           pageBuilder: (context, animation,
               secondaryAnimation) => const ValuesPage(),
@@ -342,13 +361,13 @@ class _OptionsPageState extends State<OptionsPage> {
       _optionsJson!["OPTIONS"][toEncode]["RADIAL"].forEach((key,value) {
         String master = key;
         List<dynamic> temp = value;
-        var tempPair = Pair<String, String>(master,temp[Provider.of<OptionsState>(context).radioOptionsSelected[i]].toString());
+        var tempPair = Pair<String, String>(master,temp[Provider.of<OptionsState>(context, listen: false).radioOptionsSelected[i]].toString());
 
         encoded.add(tempPair);
         i++;
       });
     } catch (e) {
-      print('Error loading options.json: $e');
+      print('Error Encoding options: $e');
       // Handle error loading JSON data
     }
     return encoded;
