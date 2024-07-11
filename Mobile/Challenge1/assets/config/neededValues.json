@@ -1,0 +1,41 @@
+{
+  "NEEDEDVALUES": {
+    "VAT": {
+      "BASELINE": ["AlturaMax", "placeholder2"],
+      "RADIAL": {
+        "Body": {
+          "Cylinder" : ["placeholderc1"],
+          "Cone" : ["placeholderc2", "placeholderc3"]
+        },
+        "Neck Position": {
+          "Center" : ["ph1"],
+          "Side" : ["ph2"]
+        },
+        "Top": {
+          "Cone" : ["Topph1"],
+          "Flat" : ["Topph2"]
+        },
+        "Door": {
+          "Inside" : ["Depht"],
+          "Outside" : ["Depth"]
+        },
+
+        "Door Shape": {
+          "Cubic" : ["Bigger Side","Smaller Side"],
+          "Elipsal" : ["Smaller Diameter", "Bigger Diameter"]
+        }
+        },
+      "CHECKBOX": {
+        "Hosepipe": {
+        },
+        "Lower Cone": {
+        }
+      }
+    },
+    "BARREL" : {
+      "BASELINE" : {
+
+      }
+    }
+  }
+}

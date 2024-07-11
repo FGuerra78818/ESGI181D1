@@ -4,11 +4,11 @@
       "RADIAL": {
         "Body" : ["Cylinder", "Cone"],
         "Neck Position" : ["Center", "Side"],
-        "Door" : ["Inside", "Outside"],
         "Top" : ["Cone", "Flat"],
-        "Door Shape" : ["Cubic", "Elipsal"]
+        "Door" : ["Inside", "Outside"],
+        "Door Shape" : ["Cubic", "Ellipse"]
       },
-      "CHECKBOX": ["Hosepipe", "Lower Cone"]
+      "CHECKBOX": ["Lower Cone"]
     },
     "BARREL" : {
       "RADIAL": {

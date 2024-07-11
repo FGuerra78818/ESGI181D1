@@ -5,6 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:challenge1/pages/valuespage.dart';
 import 'package:challenge1/pages/homepage.dart';
+import 'package:pair/pair.dart';
+import 'package:challenge1/pages/optionState.dart';
+import 'package:provider/provider.dart';
 
 
 enum RecipientTypes { vat, barrel }
@@ -12,7 +15,6 @@ enum RecipientTypes { vat, barrel }
 
 class OptionsPage extends StatefulWidget {
   const OptionsPage({super.key});
-
 
   @override
   State<StatefulWidget> createState() {
@@ -26,28 +28,37 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   void initState() {
     super.initState();
+    _type = Provider.of<OptionsState>(context, listen: false).type == "VAT" ? RecipientTypes.vat : RecipientTypes.barrel;
     loadJsonData();
   }
 
-
   final List<List<dynamic>> _vatRadioOptions = [];
   RecipientTypes? _type = RecipientTypes.vat;
-  List<String> _options = [];
+  final List<String> _options = [];
+
   // Header Name, Option 1, Option 2
   List<List<String>> _radioOptions = [];
+
   List<int> _radioOptionsSelected = [];
   List<String> _selectedOptions = [];
+
   Map<String, dynamic>? _optionsJson;
 
 
   Future<void> loadJsonData() async {
     try {
-      final String jsonString = await rootBundle.loadString('assets/config/options.json');
+      final String jsonString = await rootBundle.loadString(
+          'assets/config/options.json');
       Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
-      print('Parsed JSON: $jsonOptions'); // Debug print
       setState(() {
         _optionsJson = jsonOptions;
-        _updateOptions(); // Initialize options based on default type (VAT)
+        _updateOptions();
+        if (Provider.of<OptionsState>(context, listen: false).hasBeenLoaded) {
+          loadOptionState();
+        } else{
+          updateOptionState();
+          Provider.of<OptionsState>(context, listen: false).togglehasBeenLoaded();
+        }
       });
     } catch (e) {
       print('Error loading options.json: $e');
@@ -59,7 +70,8 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffB4D8F9),
+      backgroundColor: const Color(0xFFFFFAEB),
+      appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
       body: _optionsJson == null
           ? const Center(child: CircularProgressIndicator())
@@ -67,8 +79,28 @@ class _OptionsPageState extends State<OptionsPage> {
     );
   }
 
+  AppBar buildAppBar() {
+    return AppBar(
+      title: const Text('Cubicagem',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w800),),
+      centerTitle: true,
+      backgroundColor: const Color(0xAAFFD447),
+      //actions: [
+      /*
+        IconButton(
+          icon: Icon(Icons.more_vert),
+          onPressed: () {
+            // Implement more options functionality here
+            print('More button pressed');
+          },
+        ),
+     ],*/
+    );
+  }
   Widget buildSingleChildScrollView() {
-    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
     final double paddingTop = screenHeight * 0.075; // 7.5%
 
     return SingleChildScrollView(
@@ -129,7 +161,7 @@ class _OptionsPageState extends State<OptionsPage> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                for (int i = 0; i< _radioOptions.length; i++)
+                for (int i = 0; i < _radioOptions.length; i++)
                   Column(
                     children: [
                       Align(
@@ -147,23 +179,24 @@ class _OptionsPageState extends State<OptionsPage> {
                             ),),),),
                       Row(
                         children: [
-                          for (int j = 1; j < 3 ; j++)
+                          for (int j = 1; j < 3; j++)
                             Expanded(
                                 child: ListTile(
                                   title: Text(_radioOptions[i][j]),
                                   leading: Radio<String>(
                                     value: _radioOptions[i][j],
-                                    groupValue: _radioOptions[i][_radioOptionsSelected[i]+1],
+                                    groupValue: _radioOptions[i][_radioOptionsSelected[i] +1],
                                     onChanged: (String? value) {
                                       setState(() {
-                                        _updateRadialOptions(i,j);
+                                        _updateRadialOptions(i, j);
                                       });
                                     },
                                   ),
                                 )),
                         ],),
                     ],
-                  ),],
+                  ),
+              ],
             ),
           ),
 
@@ -179,7 +212,7 @@ class _OptionsPageState extends State<OptionsPage> {
                         setState(() {
                           if (value != null && value) {
                             _selectedOptions.add(option);
-                          } else{
+                          } else {
                             _selectedOptions.remove(option);
                           }
                         });
@@ -194,7 +227,7 @@ class _OptionsPageState extends State<OptionsPage> {
 
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: const Color(0xff5B92C6),
+      backgroundColor: const Color(0xAAFFD447),
       currentIndex: 1,
       onTap: _navigate,
       selectedItemColor: Colors.white,
@@ -233,60 +266,66 @@ class _OptionsPageState extends State<OptionsPage> {
       ),
     );
   }
-  void _updateRadialOptions(int i, int j){
-    if (j == 1){
+
+  void _updateRadialOptions(int i, int j) {
+    if (j == 1) {
       _selectedOptions.remove(_radioOptions[i][0] + _radioOptions[i][2]);
       _selectedOptions.add(_radioOptions[i][0] + _radioOptions[i][1]);
       _radioOptionsSelected[i] = 0;
-    } else{
+    } else {
       _selectedOptions.remove(_radioOptions[i][0] + _radioOptions[i][1]);
       _selectedOptions.add(_radioOptions[i][0] + _radioOptions[i][2]);
       _radioOptionsSelected[i] = 1;
     }
-
   }
+
   void _updateOptions() {
     String toDecode = "";
-    if (_type == RecipientTypes.vat){
+    if (_type == RecipientTypes.vat) {
       toDecode = "VAT";
     }
-    else if (_type == RecipientTypes.barrel){
+    else if (_type == RecipientTypes.barrel) {
       toDecode = "BARREL";
     }
     if (_optionsJson != null) {
-
       _radioOptions.clear();
       _options.clear();
-      if (_optionsJson!["OPTIONS"][toDecode].containsKey("CHECKBOX")){
-        _optionsJson!["OPTIONS"][toDecode]["CHECKBOX"].forEach((key){
-        _options.add(key);
-      });}
+      if (_optionsJson!["OPTIONS"][toDecode].containsKey("CHECKBOX")) {
+        _optionsJson!["OPTIONS"][toDecode]["CHECKBOX"].forEach((key) {
+          _options.add(key);
+        });
+      }
 
       _vatRadioOptions.clear();
-      if (_optionsJson!["OPTIONS"][toDecode].containsKey("RADIAL")){
-      _optionsJson!["OPTIONS"][toDecode]["RADIAL"].forEach((key, value) {
-        List<dynamic> optionList = [key];
-        optionList.addAll(value.cast<String>());
-        _vatRadioOptions.add(optionList);});}
+      if (_optionsJson!["OPTIONS"][toDecode].containsKey("RADIAL")) {
+        _optionsJson!["OPTIONS"][toDecode]["RADIAL"].forEach((key, value) {
+          List<dynamic> optionList = [key];
+          optionList.addAll(value.cast<String>());
+          _vatRadioOptions.add(optionList);
+        });
+      }
       _radioOptions = _vatRadioOptions.map((innerList) {
         return innerList.map((element) => element.toString()).toList();
       }).toList();
 
       _radioOptionsSelected.clear();
-      for (int i = 0; i< _radioOptions.length; i++){
+      for (int i = 0; i < _radioOptions.length; i++) {
         _radioOptionsSelected.add(0);
       }
 
       _selectedOptions.clear();
     }
+
   }
 
 
   void _navigate(int index) {
+    updateOptionState();
     switch (index) {
       case 0:
         Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+          pageBuilder: (context, animation,
+              secondaryAnimation) => const HomePage(),
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
         ));
@@ -295,8 +334,12 @@ class _OptionsPageState extends State<OptionsPage> {
       // Current page is OptionsPage, no need to navigate
         break;
       case 2:
+        //print("olá: ${Provider.of<OptionsState>(context).selectedOptions} , ${Provider.of<OptionsState>(context).radioOptionsSelected} ");
+        List<Pair<String, String>> encoded = encodeRadioSelection();
+        Provider.of<OptionsState>(context, listen: false).updateEncoded(encoded);
         Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const ValuesPage(),
+          pageBuilder: (context, animation,
+              secondaryAnimation) => const ValuesPage(),
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
         ));
@@ -304,5 +347,39 @@ class _OptionsPageState extends State<OptionsPage> {
     }
   }
 
+  List<Pair<String, String>> encodeRadioSelection() {
+    List<Pair<String, String>> encoded = [];
+    String toEncode = "";
+    if (_type == RecipientTypes.vat) {
+      toEncode = "VAT";
+    }
+    else if (_type == RecipientTypes.barrel) {
+      toEncode = "BARREL";
+    }
+    try {
+      int i = 0;
+      _optionsJson!["OPTIONS"][toEncode]["RADIAL"].forEach((key,value) {
+        String master = key;
+        List<dynamic> temp = value;
+        var tempPair = Pair<String, String>(master,temp[Provider.of<OptionsState>(context, listen: false).radioOptionsSelected[i]].toString());
 
+        encoded.add(tempPair);
+        i++;
+      });
+    } catch (e) {
+      print('Error Encoding options: $e');
+      // Handle error loading JSON data
+    }
+    return encoded;
+  }
+  void updateOptionState(){
+    Provider.of<OptionsState>(context, listen: false).updateSelectedOptions(_selectedOptions);
+    Provider.of<OptionsState>(context, listen: false).updateRadioOptionsSelected(_radioOptionsSelected);
+    Provider.of<OptionsState>(context, listen: false).updateType(_type == RecipientTypes.vat ? "VAT" : "BARREl");
+  }
+  void loadOptionState(){
+    _selectedOptions = Provider.of<OptionsState>(context, listen: false).selectedOptions;
+    _radioOptionsSelected = Provider.of<OptionsState>(context, listen: false).radioOptionsSelected;
+
+  }
 }

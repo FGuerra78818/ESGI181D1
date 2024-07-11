@@ -1,9 +1,16 @@
 import 'package:challenge1/pages/homepage.dart';
+import 'package:challenge1/pages/optionState.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => OptionsState(),
+    child: const MaterialApp(
+      home: HomePage(),
+    )
+  ));
 }
 
 class MyApp extends StatelessWidget {
