@@ -106,14 +106,21 @@ class _ValuesPage extends State<ValuesPage> {
              * Adicionar as presets
              */
             if (_presets.containsKey("PRESETS") && _presets["PRESETS"] is Map<String, dynamic>)
-              ..._presets["PRESETS"].keys.map((key) {
-                return ElevatedButton(
-                  onPressed: () {
-                    loadPreset(key); // Call loadPreset with the current key
-                  },
-                  child: Text(key), // Display the key as button text
-                );
-              }).toList(),
+              Wrap(
+                spacing: 8.0,
+                runSpacing: 8.0,
+                children: _presets["PRESETS"].keys.map((key) {
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width / 3 - 12, // Adjust width based on screen size
+                    child: ElevatedButton(
+                      onPressed: () {
+                        loadPreset(key); // Call loadPreset with the current key
+                      },
+                      child: Text(key), // Display the key as button text
+                    ),
+                  );
+                }).toList().cast<Widget>(), // Cast to List<Widget>
+              ),
             Padding (
               padding: const EdgeInsets.all(30.0),
               child: Container(
@@ -233,7 +240,12 @@ class _ValuesPage extends State<ValuesPage> {
   }
 
   void loadPreset(String name){
-
+    var tempMap1 = _presets["PRESETS"][name]["Values"];
+    int i = 0;
+    for (var entry in tempMap1.entries){
+      _controllers[i].text = entry.value.toString();
+      i++;
+    }
   }
 
   bool _validateFields() {
@@ -383,6 +395,9 @@ class _ValuesPage extends State<ValuesPage> {
           content: TextField(
             controller: _textFieldController,
             decoration: const InputDecoration(hintText: "Insert Preset Name"),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'^\w{0,8}')), // Allow only decimal input
+            ],
           ),
           actions: <Widget>[
             TextButton(
@@ -412,7 +427,7 @@ class _ValuesPage extends State<ValuesPage> {
       _presets = {"PRESETS":{"C69" :{"Options" : {"Body" : "Cylinder","Top" : "Cone","Neck Position" : "Center","Door" : "Inside","Door Shape" : "Ellipse"},"Values" : {"Neck Diameter" : 40,"Neck Height" : 36,"Hypotenuse" : 136,"Base Diameter" : 304.5,"Total Height" : 521.3,"Door Bigger Diameter" : 43,"Door Smaller Diameter" : 31,"Door Depht" : 1.5}}}};
       savePresetFile();
       print('Created or overwritten presets.json file at: ');
-  */
+    */
     savePresetFile();
     if (!_validateFields()){
       return;
