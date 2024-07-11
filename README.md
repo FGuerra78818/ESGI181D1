@@ -1,6 +1,7 @@
 # ESGI181D1
 
 This repository was created in order to make it easier to read our results in challenge 1 of the esgi181 held at Utad
+Written in flutter and WPF
 
 # The Challenge
 
