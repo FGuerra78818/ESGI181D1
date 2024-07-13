@@ -4,32 +4,30 @@
       "BASELINE": ["AlturaMax", "placeholder2"],
       "RADIAL": {
         "Body": {
-          "Cylinder" : ["placeholderc1"],
+          "Cylinder" : ["Base Diameter","Total Height"],
           "Cone" : ["placeholderc2", "placeholderc3"]
         },
         "Neck Position": {
-          "Center" : ["ph1"],
+          "Center" : ["Neck Diameter","Neck Height"],
           "Side" : ["ph2"]
         },
         "Top": {
-          "Cone" : ["Topph1"],
+          "Cone" : ["Hypotenuse"],
           "Flat" : ["Topph2"]
-        },
-        "Door": {
-          "Inside" : ["Depht"],
-          "Outside" : ["Depth"]
         },
 
         "Door Shape": {
           "Cubic" : ["Bigger Side","Smaller Side"],
-          "Elipsal" : ["Smaller Diameter", "Bigger Diameter"]
-        }
+          "Ellipse" : ["Bigger Diameter", "Smaller Diameter"]
         },
+        "Door": {
+          "Inside" : ["Depht"],
+          "Outside" : ["Depth"]
+        }
+      },
       "CHECKBOX": {
-        "Hosepipe": {
-        },
-        "Lower Cone": {
-        }
+        "Hosepipe":  ["noOne"],
+        "Lower Cone": ["noTwo"]
       }
     },
     "BARREL" : {

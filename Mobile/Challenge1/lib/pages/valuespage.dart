@@ -7,6 +7,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pair/pair.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -210,6 +211,7 @@ class _ValuesPage extends State<ValuesPage> {
   }
 
   _navigate(int index) {
+    saveValues();
     switch (index) {
       case 0:
         Navigator.of(context).push(PageRouteBuilder(
@@ -239,12 +241,49 @@ class _ValuesPage extends State<ValuesPage> {
     }
   }
 
-  void loadPreset(String name){
+  void loadPreset(String name) {
     var tempMap1 = _presets["PRESETS"][name]["Values"];
     int i = 0;
-    for (var entry in tempMap1.entries){
+    for (var entry in tempMap1.entries) {
       _controllers[i].text = entry.value.toString();
       i++;
+    }
+    try {
+      var tempMap1 = _presets["PRESETS"][name]["Options"];
+      i = 0;
+
+      List<int> tempSelectedRadio = Provider
+          .of<OptionsState>(context, listen: false)
+          .radioOptionsSelected;
+      List<String> selectedOptions = [];
+      Map<String,dynamic> optionsJson =  Provider
+          .of<OptionsState>(context, listen: false)
+          .optionsJson;
+      for (var entry in tempMap1.entries) {
+        if (optionsJson["OPTIONS"][_type]["RADIAL"][entry.key][0] == entry.value) {
+          tempSelectedRadio[i] = 0;
+        }
+        else {
+          tempSelectedRadio[i] = 1;
+        }
+        if (optionsJson["OPTIONS"][_type]["CHECKBOX"].contains(entry.key)) {
+          selectedOptions.add(entry.key);
+        }
+        i++;
+      }
+
+
+      Provider.of<OptionsState>(context, listen: false).updateSelectedOptions(
+          selectedOptions);
+      Provider.of<OptionsState>(context, listen: false)
+          .updateRadioOptionsSelected(tempSelectedRadio);
+      Provider.of<OptionsState>(context, listen: false).encodeRadioSelection();
+      Fluttertoast.showToast(msg: "Verify your options");
+
+      _navigate(1);
+
+    }catch (e){
+      print("Crashed : $e");
     }
   }
 
@@ -280,6 +319,23 @@ class _ValuesPage extends State<ValuesPage> {
     }
     return allFilled;
   }
+
+  void saveValues() {
+    List<Decimal> values = [];
+    for (int i = 0; i < _controllers.length; i++) {
+      if (!_controllers[i].text.isEmpty) {
+        values.add(Decimal.parse(_controllers[i].text));
+      }
+    }
+    Provider.of<OptionsState>(context, listen: false).updateValues(values);
+  }
+  void loadValues() {
+    List<Decimal> values = Provider.of<OptionsState>(context, listen: false).values;
+    for (int i = 0; i < _controllers.length; i++) {
+      _controllers[i].text = values[i].toString();
+    }
+  }
+
   void savePreset() async{
     if (!_validateFields()){
       return;
@@ -308,12 +364,17 @@ class _ValuesPage extends State<ValuesPage> {
 
 
   }
+
   bool doesPresetAlreadyExist(String name){
+
     if (_presets["PRESETS"].containsKey(name)){
       return true;
     }
     return false;
   }
+
+
+
   void createNewPreset(){
     _presets["PRESETS"][enteredText] = {};
     Map<String,dynamic> tempMap = {};
@@ -376,11 +437,20 @@ class _ValuesPage extends State<ValuesPage> {
     final directory = await getApplicationDocumentsDirectory();
     final filePath = '${directory.path}/presets.json';
     final file = File(filePath);
+
+    if (!await file.exists()) {
+      // Read presets.json from rootBundle
+      final presetsData = await rootBundle.loadString(
+          'assets/config/presets.json');
+
+      // Write the data to options.json
+      await file.writeAsString(presetsData);
+    }
+
     final String jsonString = await file.readAsString();
     Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
     setState(() {
       _presets = jsonOptions;
-      print(_presets);
     });
   }
 
@@ -427,7 +497,7 @@ class _ValuesPage extends State<ValuesPage> {
       _presets = {"PRESETS":{"C69" :{"Options" : {"Body" : "Cylinder","Top" : "Cone","Neck Position" : "Center","Door" : "Inside","Door Shape" : "Ellipse"},"Values" : {"Neck Diameter" : 40,"Neck Height" : 36,"Hypotenuse" : 136,"Base Diameter" : 304.5,"Total Height" : 521.3,"Door Bigger Diameter" : 43,"Door Smaller Diameter" : 31,"Door Depht" : 1.5}}}};
       savePresetFile();
       print('Created or overwritten presets.json file at: ');
-    */
+  */
     savePresetFile();
     if (!_validateFields()){
       return;
@@ -447,7 +517,10 @@ class _ValuesPage extends State<ValuesPage> {
     try {
       int num = 0;
       if (_neededValues != null) {
-        for (Pair<String,String> i in Provider.of<OptionsState>(context, listen: false).encoded) {
+        _neededValuesName.clear();
+        var encoded = Provider.of<OptionsState>(context, listen: false).encoded;
+
+        for (Pair<String,String> i in encoded) {
           //String (option,selected) = i;
           if (_neededValues!["NEEDEDVALUES"][_type]["RADIAL"].containsKey(i.key) ) {
             for (String str in _neededValues!["NEEDEDVALUES"][_type]["RADIAL"][i.key][i.value]) {
@@ -455,11 +528,15 @@ class _ValuesPage extends State<ValuesPage> {
               _controllers.add(TextEditingController());
             }
           }
+
         }
 
+        loadValues();
       }
     } catch (e) {
       print('Error decoding needevalues.json: $e');
     }
+
   }
+
 }

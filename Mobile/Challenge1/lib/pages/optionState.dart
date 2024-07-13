@@ -10,6 +10,8 @@ class OptionsState extends ChangeNotifier {
   bool _hasBeenLoaded = false;
   String _type = "VAT";
   Map<String,Decimal> _valuesMapped = <String,Decimal>{};
+  Map<String,dynamic> _optionsJson = {};
+  List<Decimal> _values = [];
 
   List<int> get radioOptionsSelected => _radioOptionsSelected;
   List<String> get selectedOptions => _selectedOptions;
@@ -17,6 +19,8 @@ class OptionsState extends ChangeNotifier {
   bool get hasBeenLoaded => _hasBeenLoaded;
   String get type => _type;
   Map<String,Decimal> get valuesMapped => _valuesMapped;
+  Map<String,dynamic> get optionsJson => _optionsJson;
+  List<Decimal> get values => _values;
 
   void togglehasBeenLoaded() {
     _hasBeenLoaded = !_hasBeenLoaded;
@@ -57,4 +61,40 @@ class OptionsState extends ChangeNotifier {
     _valuesMapped = newValuesMapped;
     notifyListeners();
   }
+  void updateOptionsJson(Map<String,dynamic> newValuesMapped){
+    _optionsJson = newValuesMapped;
+    notifyListeners();
+  }
+  void updateValues(List<Decimal> newValuesMapped){
+    _values = newValuesMapped;
+    notifyListeners();
+  }
+
+  void encodeRadioSelection() {
+    List<Pair<String, String>> encoded = [];
+    String toEncode = "";
+    if (_type == "VAT") {
+      toEncode = "VAT";
+    }
+    else if (_type == "BARREl") {
+      toEncode = "BARREL";
+    }
+    try {
+      int i = 0;
+      _optionsJson["OPTIONS"][toEncode]["RADIAL"].forEach((key,value) {
+        String master = key;
+        List<dynamic> temp = value;
+        var tempPair = Pair<String, String>(master,temp[radioOptionsSelected[i]].toString());
+
+        encoded.add(tempPair);
+        i++;
+      });
+    } catch (e) {
+      print('Error Encoding options: $e');
+      // Handle error loading JSON data
+    }
+    _encoded = encoded;
+  }
+
+
 }

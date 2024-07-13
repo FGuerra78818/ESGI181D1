@@ -52,7 +52,9 @@ class _OptionsPageState extends State<OptionsPage> {
       Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
       setState(() {
         _optionsJson = jsonOptions;
+        Provider.of<OptionsState>(context, listen: false).updateOptionsJson(_optionsJson!);
         _updateOptions();
+
         if (Provider.of<OptionsState>(context, listen: false).hasBeenLoaded) {
           loadOptionState();
         } else{
@@ -60,6 +62,7 @@ class _OptionsPageState extends State<OptionsPage> {
           Provider.of<OptionsState>(context, listen: false).togglehasBeenLoaded();
         }
       });
+
     } catch (e) {
       print('Error loading options.json: $e');
       // Handle error loading JSON data
@@ -335,8 +338,7 @@ class _OptionsPageState extends State<OptionsPage> {
         break;
       case 2:
         //print("olá: ${Provider.of<OptionsState>(context).selectedOptions} , ${Provider.of<OptionsState>(context).radioOptionsSelected} ");
-        List<Pair<String, String>> encoded = encodeRadioSelection();
-        Provider.of<OptionsState>(context, listen: false).updateEncoded(encoded);
+        Provider.of<OptionsState>(context, listen: false).encodeRadioSelection();
         Navigator.of(context).push(PageRouteBuilder(
           pageBuilder: (context, animation,
               secondaryAnimation) => const ValuesPage(),
@@ -347,31 +349,7 @@ class _OptionsPageState extends State<OptionsPage> {
     }
   }
 
-  List<Pair<String, String>> encodeRadioSelection() {
-    List<Pair<String, String>> encoded = [];
-    String toEncode = "";
-    if (_type == RecipientTypes.vat) {
-      toEncode = "VAT";
-    }
-    else if (_type == RecipientTypes.barrel) {
-      toEncode = "BARREL";
-    }
-    try {
-      int i = 0;
-      _optionsJson!["OPTIONS"][toEncode]["RADIAL"].forEach((key,value) {
-        String master = key;
-        List<dynamic> temp = value;
-        var tempPair = Pair<String, String>(master,temp[Provider.of<OptionsState>(context, listen: false).radioOptionsSelected[i]].toString());
 
-        encoded.add(tempPair);
-        i++;
-      });
-    } catch (e) {
-      print('Error Encoding options: $e');
-      // Handle error loading JSON data
-    }
-    return encoded;
-  }
   void updateOptionState(){
     Provider.of<OptionsState>(context, listen: false).updateSelectedOptions(_selectedOptions);
     Provider.of<OptionsState>(context, listen: false).updateRadioOptionsSelected(_radioOptionsSelected);

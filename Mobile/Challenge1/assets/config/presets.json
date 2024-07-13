@@ -9,14 +9,14 @@
         "Door Shape" : "Ellipse"
       },
       "Values" : {
+        "Base Diameter" : 304.5,
+        "Total Height" : 553.0165,
         "Neck Diameter" : 40,
         "Neck Height" : 36,
         "Hypotenuse" : 136,
-        "Base Diameter" : 304.5,
-        "Total Height" : 521.3,
+        "Door Depht" : 1.5,
         "Door Bigger Diameter" : 43,
-        "Door Smaller Diameter" : 31,
-        "Door Depht" : 1.5
+        "Door Smaller Diameter" : 31
       }
     }
   }
