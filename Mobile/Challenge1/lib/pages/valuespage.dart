@@ -36,17 +36,19 @@ class _ValuesPage extends State<ValuesPage> {
         .type;
     loadJsonData(); //needed values
     readJsonFile(); //presets
-
   }
   @override
   void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
+
     super.dispose();
   }
 
-
+  void disposeController() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    _controllers.clear();
+  }
 
   String _type = "VAT";
   String enteredText = '';
@@ -243,14 +245,9 @@ class _ValuesPage extends State<ValuesPage> {
 
   void loadPreset(String name) {
     try {
-      var tempMap1 = _presets["PRESETS"][name]["Values"];
+      var tempMap2 = _presets["PRESETS"][name]["Values"];
       int i = 0;
-      for (var entry in tempMap1.entries) {
-        _controllers[i].text = entry.value.toString();
-        i++;
-      }
-      tempMap1 = _presets["PRESETS"][name]["Options"];
-      i = 0;
+      var tempMap1 = _presets["PRESETS"][name]["Options"];
 
       List<int> tempSelectedRadio = Provider
           .of<OptionsState>(context, listen: false)
@@ -283,6 +280,12 @@ class _ValuesPage extends State<ValuesPage> {
       Provider.of<OptionsState>(context, listen: false).encodeRadioSelection();
       Fluttertoast.showToast(msg: "Verify your options");
 
+      loadNeededNames();
+      i = 0;
+      for (var entry in tempMap2.entries) {
+        _controllers[i].text = entry.value.toString();
+        i++;
+      }
       _navigate(1);
 
     }catch (e){
@@ -529,9 +532,11 @@ class _ValuesPage extends State<ValuesPage> {
     try {
       if (_neededValues != null) {
         _neededValuesName.clear();
+        disposeController();
         var encoded = Provider.of<OptionsState>(context, listen: false).encoded;
         for (Pair<String,String> i in encoded) {
           //String (option,selected) = i;
+
           if (_neededValues!["NEEDEDVALUES"][_type]["RADIAL"].containsKey(i.key) ) {
             for (String str in _neededValues!["NEEDEDVALUES"][_type]["RADIAL"][i.key][i.value]) {
               _neededValuesName.add(str);
