@@ -61,7 +61,7 @@ class _ValuesPage extends State<ValuesPage> {
       Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
       setState(() {
         _neededValues = jsonOptions;
-        decodeJson(); // Initialize options based on default type (VAT)
+        loadNeededNames(); // Initialize options based on default type (VAT)
       });
     } catch (e) {
       print('Error loading options.json: $e');
@@ -242,14 +242,14 @@ class _ValuesPage extends State<ValuesPage> {
   }
 
   void loadPreset(String name) {
-    var tempMap1 = _presets["PRESETS"][name]["Values"];
-    int i = 0;
-    for (var entry in tempMap1.entries) {
-      _controllers[i].text = entry.value.toString();
-      i++;
-    }
     try {
-      var tempMap1 = _presets["PRESETS"][name]["Options"];
+      var tempMap1 = _presets["PRESETS"][name]["Values"];
+      int i = 0;
+      for (var entry in tempMap1.entries) {
+        _controllers[i].text = entry.value.toString();
+        i++;
+      }
+      tempMap1 = _presets["PRESETS"][name]["Options"];
       i = 0;
 
       List<int> tempSelectedRadio = Provider
@@ -260,19 +260,22 @@ class _ValuesPage extends State<ValuesPage> {
           .of<OptionsState>(context, listen: false)
           .optionsJson;
       for (var entry in tempMap1.entries) {
-        if (optionsJson["OPTIONS"][_type]["RADIAL"][entry.key][0] == entry.value) {
-          tempSelectedRadio[i] = 0;
+        if (optionsJson["OPTIONS"][_type]["RADIAL"].containsKey(entry.key)){
+          if (optionsJson["OPTIONS"][_type]["RADIAL"][entry.key][0] == entry.value) {
+            tempSelectedRadio[i] = 0;
+          }
+          else {
+            tempSelectedRadio[i] = 1;
+          }
         }
-        else {
-          tempSelectedRadio[i] = 1;
-        }
+
+        print("Entry: $entry");
         if (optionsJson["OPTIONS"][_type]["CHECKBOX"].contains(entry.key)) {
+          print("Contains: $entry");
           selectedOptions.add(entry.key);
         }
         i++;
       }
-
-
       Provider.of<OptionsState>(context, listen: false).updateSelectedOptions(
           selectedOptions);
       Provider.of<OptionsState>(context, listen: false)
@@ -330,9 +333,15 @@ class _ValuesPage extends State<ValuesPage> {
     Provider.of<OptionsState>(context, listen: false).updateValues(values);
   }
   void loadValues() {
-    List<Decimal> values = Provider.of<OptionsState>(context, listen: false).values;
-    for (int i = 0; i < _controllers.length; i++) {
-      _controllers[i].text = values[i].toString();
+    try {
+      List<Decimal> values = Provider
+          .of<OptionsState>(context, listen: false)
+          .values;
+      for (int i = 0; i < values.length; i++) {
+        _controllers[i].text = values[i].toString();
+      }
+    } catch (e){
+      print("Error on loadValues $e");
     }
   }
 
@@ -390,6 +399,9 @@ class _ValuesPage extends State<ValuesPage> {
       var key = entry.key;
       var value = entry.value;
       tempMap3[key] = value;
+    }
+    for (var entry in Provider.of<OptionsState>(context, listen: false).selectedOptions){
+      tempMap3[entry] = "true";
     }
     tempMap["Options"] = tempMap3;
     tempMap["Values"] = tempMap2;
@@ -510,16 +522,14 @@ class _ValuesPage extends State<ValuesPage> {
     Provider.of<OptionsState>(context, listen: false).updateValuesMapped(valuesMapped);
   }
 
-  void decodeJson() {
+  void loadNeededNames() {
     /**
      * Missing CheckBoxes
      */
     try {
-      int num = 0;
       if (_neededValues != null) {
         _neededValuesName.clear();
         var encoded = Provider.of<OptionsState>(context, listen: false).encoded;
-
         for (Pair<String,String> i in encoded) {
           //String (option,selected) = i;
           if (_neededValues!["NEEDEDVALUES"][_type]["RADIAL"].containsKey(i.key) ) {
@@ -528,9 +538,19 @@ class _ValuesPage extends State<ValuesPage> {
               _controllers.add(TextEditingController());
             }
           }
-
         }
-
+        if (Provider.of<OptionsState>(context, listen: false).selectedOptions.isNotEmpty) {
+          for (var str1 in Provider
+              .of<OptionsState>(context, listen: false)
+              .selectedOptions) {
+            if (_neededValues!["NEEDEDVALUES"][_type]["CHECKBOX"].containsKey(str1)) {
+              for (String str in _neededValues!["NEEDEDVALUES"][_type]["CHECKBOX"][str1]) {
+                _neededValuesName.add(str);
+                _controllers.add(TextEditingController());
+              }
+            }
+          }
+        }
         loadValues();
       }
     } catch (e) {

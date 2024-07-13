@@ -1,7 +1,6 @@
 {
   "NEEDEDVALUES": {
     "VAT": {
-      "BASELINE": ["AlturaMax", "placeholder2"],
       "RADIAL": {
         "Body": {
           "Cylinder" : ["Base Diameter","Total Height"],
@@ -21,7 +20,7 @@
           "Ellipse" : ["Bigger Diameter", "Smaller Diameter"]
         },
         "Door": {
-          "Inside" : ["Depht"],
+          "Inside" : ["Depth"],
           "Outside" : ["Depth"]
         }
       },
