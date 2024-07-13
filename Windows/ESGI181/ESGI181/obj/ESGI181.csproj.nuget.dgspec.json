@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\ESGI181.csproj": {}
+    "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\ESGI181.csproj": {}
   },
   "projects": {
-    "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\ESGI181.csproj": {
+    "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\ESGI181.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\ESGI181.csproj",
+        "projectUniqueName": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\ESGI181.csproj",
         "projectName": "ESGI181",
-        "projectPath": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\ESGI181.csproj",
+        "projectPath": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\ESGI181.csproj",
         "packagesPath": "C:\\Users\\franc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\obj\\",
+        "outputPath": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\franc\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -44,6 +44,12 @@
       "frameworks": {
         "net8.0-windows10.0.22000": {
           "targetAlias": "net8.0-windows10.0.22000.0",
+          "dependencies": {
+            "MathNet.Numerics": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -72,7 +78,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

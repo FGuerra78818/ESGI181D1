@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\",
+  "WorkspaceRootPath": "C:\\Users\\franc\\Desktop\\ESGI181\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2F94C3C0-FDF8-4C5F-BFA7-381D17D7850C}|ESGI181\\ESGI181.csproj|c:\\users\\franc\\source\\repos\\fguerra78818\\esgi181d1\\windows\\esgi181\\esgi181\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2F94C3C0-FDF8-4C5F-BFA7-381D17D7850C}|ESGI181\\ESGI181.csproj|c:\\users\\franc\\desktop\\esgi181\\esgi181\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2F94C3C0-FDF8-4C5F-BFA7-381D17D7850C}|ESGI181\\ESGI181.csproj|solutionrelative:esgi181\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2F94C3C0-FDF8-4C5F-BFA7-381D17D7850C}|ESGI181\\ESGI181.csproj|c:\\users\\franc\\source\\repos\\fguerra78818\\esgi181d1\\windows\\esgi181\\esgi181\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{2F94C3C0-FDF8-4C5F-BFA7-381D17D7850C}|ESGI181\\ESGI181.csproj|C:\\Users\\franc\\Desktop\\ESGI181\\esgi181\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{2F94C3C0-FDF8-4C5F-BFA7-381D17D7850C}|ESGI181\\ESGI181.csproj|solutionrelative:esgi181\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
@@ -18,32 +18,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "ESGI181\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\MainWindow.xaml.cs",
-              "RelativeToolTip": "ESGI181\\MainWindow.xaml.cs",
-              "ViewState": "AQIAAD0BAAAAAAAAAAAAAIIBAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-10T13:07:43.15Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\MainWindow.xaml",
               "RelativeDocumentMoniker": "ESGI181\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\MainWindow.xaml",
               "RelativeToolTip": "ESGI181\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2024-07-10T13:07:34.243Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "ESGI181\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\MainWindow.xaml.cs",
+              "RelativeToolTip": "ESGI181\\MainWindow.xaml.cs",
+              "ViewState": "AQIAADMCAAAAAAAAAAAAAEECAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-10T13:07:43.15Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }

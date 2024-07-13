@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "hedxcGy4tXiKO7Qwg5BBcJo7/ozwoDzA5R8Y/Ary9TKDhAxOZNQCcod3B0mKISDzXwpPGdy4P8Uqbi8ieS9cDg==",
+  "dgSpecHash": "ZTZKUvpVEIq5U9Vnpx40WK+yVzv2qL8VLPzWTxQwOWDUTXt/ZKmjVzawKJLM8SUXfDIfE98bWoE5dBBFgl0JMA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\ESGI181.csproj",
+  "projectFilePath": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\ESGI181.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\franc\\.nuget\\packages\\mathnet.numerics\\5.0.0\\mathnet.numerics.5.0.0.nupkg.sha512",
     "C:\\Users\\franc\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22000.31\\microsoft.windows.sdk.net.ref.10.0.22000.31.nupkg.sha512"
   ],
   "logs": []

@@ -1,11 +1,50 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-windows10.0.22000": {}
+    "net8.0-windows10.0.22000": {
+      "MathNet.Numerics/5.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/MathNet.Numerics.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/MathNet.Numerics.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "MathNet.Numerics/5.0.0": {
+      "sha512": "pg1W2VwaEQMAiTpGK840hZgzavnqjlCMTVSbtVCXVyT+7AX4mc1o89SPv4TBlAjhgCOo9c1Y+jZ5m3ti2YgGgA==",
+      "type": "package",
+      "path": "mathnet.numerics/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net461/MathNet.Numerics.dll",
+        "lib/net461/MathNet.Numerics.xml",
+        "lib/net48/MathNet.Numerics.dll",
+        "lib/net48/MathNet.Numerics.xml",
+        "lib/net5.0/MathNet.Numerics.dll",
+        "lib/net5.0/MathNet.Numerics.xml",
+        "lib/net6.0/MathNet.Numerics.dll",
+        "lib/net6.0/MathNet.Numerics.xml",
+        "lib/netstandard2.0/MathNet.Numerics.dll",
+        "lib/netstandard2.0/MathNet.Numerics.xml",
+        "mathnet.numerics.5.0.0.nupkg.sha512",
+        "mathnet.numerics.nuspec"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0-windows10.0.22000": []
+    "net8.0-windows10.0.22000": [
+      "MathNet.Numerics >= 5.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\franc\\.nuget\\packages\\": {}
@@ -13,11 +52,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\ESGI181.csproj",
+      "projectUniqueName": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\ESGI181.csproj",
       "projectName": "ESGI181",
-      "projectPath": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\ESGI181.csproj",
+      "projectPath": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\ESGI181.csproj",
       "packagesPath": "C:\\Users\\franc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\franc\\source\\repos\\FGuerra78818\\ESGI181D1\\Windows\\ESGI181\\ESGI181\\obj\\",
+      "outputPath": "C:\\Users\\franc\\Desktop\\ESGI181\\ESGI181\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\franc\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -50,6 +89,12 @@
     "frameworks": {
       "net8.0-windows10.0.22000": {
         "targetAlias": "net8.0-windows10.0.22000.0",
+        "dependencies": {
+          "MathNet.Numerics": {
+            "target": "Package",
+            "version": "[5.0.0, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -78,7 +123,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
