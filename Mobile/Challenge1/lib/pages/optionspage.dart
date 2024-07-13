@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:challenge1/pages/valuespage.dart';
 import 'package:challenge1/pages/homepage.dart';
-import 'package:pair/pair.dart';
 import 'package:challenge1/pages/optionState.dart';
 import 'package:provider/provider.dart';
 
@@ -113,7 +112,7 @@ class _OptionsPageState extends State<OptionsPage> {
           Container(
             padding: const EdgeInsets.all(20),
             child: const Text(
-              'Select the type',
+              'Escolhe as Opções',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 32,
@@ -129,7 +128,11 @@ class _OptionsPageState extends State<OptionsPage> {
               children: <Widget>[
                 Expanded(
                   child: ListTile(
-                    title: const Text('Vat'),
+                    title: const Text('Cuba', style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),),
                     leading: Radio<RecipientTypes>(
                       value: RecipientTypes.vat,
                       groupValue: _type,
@@ -144,7 +147,11 @@ class _OptionsPageState extends State<OptionsPage> {
                 ),
                 Expanded(
                   child: ListTile(
-                    title: const Text('Barrel'),
+                    title: const Text('Pipa', style:  TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),),
                     leading: Radio<RecipientTypes>(
                       value: RecipientTypes.barrel,
                       groupValue: _type,
@@ -176,7 +183,7 @@ class _OptionsPageState extends State<OptionsPage> {
                           child: Text(_radioOptions[i][0],
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 24,
+                              fontSize: 32,
                               fontWeight: FontWeight.w600,
                               color: Colors.black,
                             ),),),),
@@ -185,7 +192,11 @@ class _OptionsPageState extends State<OptionsPage> {
                           for (int j = 1; j < 3; j++)
                             Expanded(
                                 child: ListTile(
-                                  title: Text(_radioOptions[i][j]),
+                                  title: Text(_radioOptions[i][j], style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),),
                                   leading: Radio<String>(
                                     value: _radioOptions[i][j],
                                     groupValue: _radioOptions[i][_radioOptionsSelected[i] +1],
@@ -209,7 +220,11 @@ class _OptionsPageState extends State<OptionsPage> {
                 children: [
                   for (var option in _options)
                     CheckboxListTile(
-                      title: Text(option),
+                      title: Text(option, style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),),
                       value: _selectedOptions.contains(option),
                       onChanged: (bool? value) {
                         setState(() {
@@ -242,7 +257,7 @@ class _OptionsPageState extends State<OptionsPage> {
             height: 25,
             width: 30,
           ),
-          label: "HOME",
+          label: "INICIO",
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
@@ -250,7 +265,7 @@ class _OptionsPageState extends State<OptionsPage> {
             height: 25,
             width: 30,
           ),
-          label: "OPTIONS",
+          label: "OPÇÕES",
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
@@ -258,7 +273,7 @@ class _OptionsPageState extends State<OptionsPage> {
             height: 25,
             width: 30,
           ),
-          label: "VALUES",
+          label: "METRICA",
         ),
       ],
       selectedLabelStyle: const TextStyle(

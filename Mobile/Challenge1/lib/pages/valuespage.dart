@@ -4,10 +4,10 @@ import 'dart:io';
 
 import 'package:challenge1/pages/optionState.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pair/pair.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +39,7 @@ class _ValuesPage extends State<ValuesPage> {
   }
   @override
   void dispose() {
-
+    disposeController();
     super.dispose();
   }
 
@@ -66,7 +66,9 @@ class _ValuesPage extends State<ValuesPage> {
         loadNeededNames(); // Initialize options based on default type (VAT)
       });
     } catch (e) {
-      print('Error loading options.json: $e');
+      if (kDebugMode) {
+        print('Error loading options.json: $e');
+      }
       // Handle error loading JSON data
     }
   }
@@ -119,7 +121,11 @@ class _ValuesPage extends State<ValuesPage> {
                       onPressed: () {
                         loadPreset(key); // Call loadPreset with the current key
                       },
-                      child: Text(key), // Display the key as button text
+                      child: Text(key, style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),), // Display the key as button text
                     ),
                   );
                 }).toList().cast<Widget>(), // Cast to List<Widget>
@@ -166,8 +172,16 @@ class _ValuesPage extends State<ValuesPage> {
                 ],),
                     Row(
                       children: [
-                        Expanded(child: ElevatedButton(onPressed: prepareSend, child: const Text("Calculate")),),
-                        Expanded(child: ElevatedButton(onPressed: savePreset, child: const Text("Save")))
+                        Expanded(child: ElevatedButton(onPressed: prepareSend, child: const Text("Calcular", style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),)),),
+                        Expanded(child: ElevatedButton(onPressed: savePreset, child: const Text("Guardar", style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),), ))
                       ],
                     )
 
@@ -197,15 +211,15 @@ class _ValuesPage extends State<ValuesPage> {
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             'assets/icons/home.svg', height: 25, width: 30,),
-          label: ("HOME"),),
+          label: ("INICIO"),),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             'assets/icons/setting.svg', height: 25, width: 30,),
-          label: ("OPTIONS"),),
+          label: ("OPÇÕES"),),
         BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/icons/map.svg', height: 25, width: 30,),
-            label: ("VALUES")),
+            label: ("METRICA")),
       ],
       selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,),
       unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,),
@@ -266,9 +280,7 @@ class _ValuesPage extends State<ValuesPage> {
           }
         }
 
-        print("Entry: $entry");
         if (optionsJson["OPTIONS"][_type]["CHECKBOX"].contains(entry.key)) {
-          print("Contains: $entry");
           selectedOptions.add(entry.key);
         }
         i++;
@@ -278,7 +290,6 @@ class _ValuesPage extends State<ValuesPage> {
       Provider.of<OptionsState>(context, listen: false)
           .updateRadioOptionsSelected(tempSelectedRadio);
       Provider.of<OptionsState>(context, listen: false).encodeRadioSelection();
-      Fluttertoast.showToast(msg: "Verify your options");
 
       loadNeededNames();
       i = 0;
@@ -286,10 +297,12 @@ class _ValuesPage extends State<ValuesPage> {
         _controllers[i].text = entry.value.toString();
         i++;
       }
-      _navigate(1);
+
 
     }catch (e){
-      print("Crashed : $e");
+      if (kDebugMode) {
+        print("Crashed : $e");
+      }
     }
   }
 
@@ -312,7 +325,7 @@ class _ValuesPage extends State<ValuesPage> {
           .of(context)
           .showSnackBar(
         SnackBar(
-          content: Text(allFilled ? 'All fields are filled!' : 'Please fill all fields'),
+          content: Text(allFilled ? 'Todos os campos estão prenchidos!' : 'Por favor preencha todos os campos.'),
           duration: const Duration(seconds: 2),
         ),
       )
@@ -329,7 +342,7 @@ class _ValuesPage extends State<ValuesPage> {
   void saveValues() {
     List<Decimal> values = [];
     for (int i = 0; i < _controllers.length; i++) {
-      if (!_controllers[i].text.isEmpty) {
+      if (_controllers[i].text.isNotEmpty) {
         values.add(Decimal.parse(_controllers[i].text));
       }
     }
@@ -344,7 +357,9 @@ class _ValuesPage extends State<ValuesPage> {
         _controllers[i].text = values[i].toString();
       }
     } catch (e){
-      print("Error on loadValues $e");
+      if (kDebugMode) {
+        print("Error on loadValues $e");
+      }
     }
   }
 
@@ -361,7 +376,7 @@ class _ValuesPage extends State<ValuesPage> {
       ScaffoldMessenger.of(context)
           .showSnackBar(
           const SnackBar(
-            content: Text('Please insert a valid name'),
+            content: Text('Por favor intruduz um nome válido'),
             duration: Duration(seconds: 2),
           ),);
           return;
@@ -417,17 +432,17 @@ class _ValuesPage extends State<ValuesPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Overwrite Confirmation'),
-          content: Text('A preset with the name "$enteredText" already exists. Do you want to overwrite it?'),
+          title: const Text('Confirmar Substituição'),
+          content: Text('Uma predefinição '"'$enteredText'"' já existe. Quer substitui-la?'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
             ),
             TextButton(
-              child: const Text('Overwrite'),
+              child: const Text('Substituir'),
               onPressed: () {
                 createNewPreset(); // Overwrite the existing preset
                 savePresetFile(); // Save the updated presets list
@@ -476,17 +491,17 @@ class _ValuesPage extends State<ValuesPage> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Save Preset'),
+          title: const Text('Guardar Predefinição'),
           content: TextField(
             controller: _textFieldController,
-            decoration: const InputDecoration(hintText: "Insert Preset Name"),
+            decoration: const InputDecoration(hintText: "Insira o nome da predefinição"),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\w{0,8}')), // Allow only decimal input
+              FilteringTextInputFormatter.allow(RegExp(r'^\w{0,5}')), // Allow only 5 digits
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('CANCEL'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 enteredText = "CANCELED";
                 _textFieldController.text = "";
@@ -532,7 +547,9 @@ class _ValuesPage extends State<ValuesPage> {
     try {
       if (_neededValues != null) {
         _neededValuesName.clear();
-        disposeController();
+        setState(() {
+          disposeController();
+        });
         var encoded = Provider.of<OptionsState>(context, listen: false).encoded;
         for (Pair<String,String> i in encoded) {
           //String (option,selected) = i;
@@ -559,9 +576,9 @@ class _ValuesPage extends State<ValuesPage> {
         loadValues();
       }
     } catch (e) {
-      print('Error decoding needevalues.json: $e');
+      if (kDebugMode) {
+        print('Error decoding needevalues.json: $e');
+      }
     }
-
   }
-
 }

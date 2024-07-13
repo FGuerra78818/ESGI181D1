@@ -2,11 +2,10 @@
   "PRESETS":{
     "C69" :{
       "Options" : {
-        "Body" : "Cylinder",
-        "Top" : "Cone",
-        "Neck Position" : "Center",
-        "Door" : "Inside",
-        "Door Shape" : "Ellipse"
+        "Tronco" : "Cilindro",
+        "Posição Pescoço" : "Centrado",
+        "Porta" : "Dentro",
+        "Forma da Porta" : "Elipse"
       },
       "Values" : {
         "Base Diameter" : 304.5,

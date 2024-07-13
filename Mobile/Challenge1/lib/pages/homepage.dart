@@ -29,16 +29,6 @@ class _HomePage extends State<HomePage> {
       title: const Text('Cubicagem',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w800),),
       centerTitle: true,
       backgroundColor: const Color(0xAAFFD447),
-      //actions: [
-      /*
-        IconButton(
-          icon: Icon(Icons.more_vert),
-          onPressed: () {
-            // Implement more options functionality here
-            print('More button pressed');
-          },
-        ),
-     ],*/
     );
   }
 
@@ -54,15 +44,15 @@ class _HomePage extends State<HomePage> {
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             'assets/icons/home.svg', height: 25, width: 30,),
-          label: ("HOME"),),
+          label: ("INICIO"),),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             'assets/icons/setting.svg', height: 25, width: 30,),
-          label: ("OPTIONS"),),
+          label: ("OPÇÕES"),),
         BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/icons/map.svg', height: 25, width: 30,),
-            label: ("VALUES")),
+            label: ("METRICA")),
       ],
       selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,),
       unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,),

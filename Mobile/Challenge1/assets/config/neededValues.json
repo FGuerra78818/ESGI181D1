@@ -2,31 +2,26 @@
   "NEEDEDVALUES": {
     "VAT": {
       "RADIAL": {
-        "Body": {
-          "Cylinder" : ["Base Diameter","Total Height"],
+        "Tronco": {
+          "Cilindro" : ["Base Diameter","Total Height"],
           "Cone" : ["placeholderc2", "placeholderc3"]
         },
-        "Neck Position": {
-          "Center" : ["Neck Diameter","Neck Height"],
-          "Side" : ["ph2"]
-        },
-        "Top": {
-          "Cone" : ["Hypotenuse"],
-          "Flat" : ["Topph2"]
+        "Posição Pescoço": {
+          "Centrado" : ["Neck Diameter","Neck Height"],
+          "Lado" : ["ph2"]
         },
 
-        "Door Shape": {
-          "Cubic" : ["Bigger Side","Smaller Side"],
-          "Ellipse" : ["Bigger Diameter", "Smaller Diameter"]
+        "Forma da Porta": {
+          "Retângulo" : ["Bigger Side","Smaller Side"],
+          "Elipse" : ["Bigger Diameter", "Smaller Diameter"]
         },
-        "Door": {
-          "Inside" : ["Depth"],
-          "Outside" : ["Depth"]
+        "Porta": {
+          "Dentro" : ["Depth"],
+          "Fora" : ["Depth"]
         }
       },
       "CHECKBOX": {
-        "Hosepipe":  ["noOne"],
-        "Lower Cone": ["noTwo"]
+        "Fundo Cónico": ["noTwo"]
       }
     },
     "BARREL" : {
