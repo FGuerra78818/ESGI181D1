@@ -3,25 +3,25 @@
     "VAT": {
       "RADIAL": {
         "Tronco": {
-          "Cilindro" : ["Base Diameter","Total Height"],
-          "Cone" : ["placeholderc2", "placeholderc3"]
+          "Cilindro" : ["Diametro Base"],
+          "Cone" : ["Diametro Base"]
         },
         "Posição Pescoço": {
-          "Centrado" : ["Neck Diameter","Neck Height"],
-          "Lado" : ["ph2"]
+          "Centrado" : ["Altura Pescoço", "Diametro Pescoço", "Hipotenusa"],
+          "Lado" : ["Altura Menor Pescoço","Altura Maior Pescoço", "Diametro Pescoço"]
         },
 
         "Forma da Porta": {
-          "Retângulo" : ["Bigger Side","Smaller Side"],
-          "Elipse" : ["Bigger Diameter", "Smaller Diameter"]
+          "Retângulo" : ["Lado Maior Porta","Lado Menor Porta"],
+          "Elipse" : ["Diametro Maior Porta", "Diametro Menor Porta"]
         },
         "Porta": {
-          "Dentro" : ["Depth"],
-          "Fora" : ["Depth"]
+          "Dentro" : ["Expessura Porta"],
+          "Fora" : ["Expessura Porta"]
         }
       },
       "CHECKBOX": {
-        "Fundo Cónico": ["noTwo"]
+        "Fundo Cónico": {"True" :["Comprimento Mangueira", "Diametro Mangueira","Hipotenusa Fundo", "Altura Tronco"], "False" : ["Altura Total"]}
       }
     },
     "BARREL" : {

@@ -550,6 +550,24 @@ class _ValuesPage extends State<ValuesPage> {
         setState(() {
           disposeController();
         });
+
+        for (var entry in _neededValues!["NEEDEDVALUES"][_type]["CHECKBOX"].entries) {
+          String key = entry.key;
+          Map<String,dynamic> value = entry.value;
+          if (Provider.of<OptionsState>(context, listen: false).selectedOptions.contains(key)) {
+            for (String str in value["True"]!){
+              _neededValuesName.add(str);
+              _controllers.add(TextEditingController());
+
+            }
+          } else {
+            for (String str in value["False"]!){
+              _neededValuesName.add(str);
+              _controllers.add(TextEditingController());
+            }
+          }
+        }
+
         var encoded = Provider.of<OptionsState>(context, listen: false).encoded;
         for (Pair<String,String> i in encoded) {
           //String (option,selected) = i;
@@ -561,6 +579,9 @@ class _ValuesPage extends State<ValuesPage> {
             }
           }
         }
+
+
+        /*
         if (Provider.of<OptionsState>(context, listen: false).selectedOptions.isNotEmpty) {
           for (var str1 in Provider
               .of<OptionsState>(context, listen: false)
@@ -573,6 +594,7 @@ class _ValuesPage extends State<ValuesPage> {
             }
           }
         }
+        */
         loadValues();
       }
     } catch (e) {
