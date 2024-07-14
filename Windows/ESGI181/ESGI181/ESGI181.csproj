@@ -13,6 +13,7 @@
     <None Remove="assets\images\ConeTopo.png" />
     <None Remove="assets\images\Fundo.png" />
     <None Remove="assets\images\Fundo1.png" />
+    <None Remove="assets\images\Icon.png" />
     <None Remove="assets\images\PescoçoCentrado.png" />
     <None Remove="assets\images\PescoçoNaoCentrado.png" />
     <None Remove="assets\images\TroncoBase.png" />
@@ -21,6 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +30,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="assets\images\Fundo1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\images\Icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="assets\images\TroncoTopo.png">

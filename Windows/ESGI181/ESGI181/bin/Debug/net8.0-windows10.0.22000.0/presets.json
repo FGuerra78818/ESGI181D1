@@ -1,0 +1,179 @@
+[
+  {
+    "PresetName": "C69",
+    "Options": {
+      "Base": "Cilindro",
+      "Pescoço": "Centrado",
+      "Pescoço Adicional": "False",
+      "Porta": "Elipse",
+      "PortaPosicao": "Dentro",
+      "Fundo": "False"
+    },
+    "Values": {
+      "Diametro Pescoço": "40",
+      "Altura Pequena Pescoço": "36",
+      "Hipotenusa": "136",
+      "Diametro Base": "304,5",
+      "Altura Total": "553,0165",
+      "Diametro Pequeno Elipse": "31",
+      "Diametro Grande Elipse": "43",
+      "Espessura": "1,5"
+    }
+  },
+  {
+    "PresetName": "78",
+    "Options": {
+      "Base": "Cilindro",
+      "Pescoço": "Centrado",
+      "Pescoço Adicional": "False",
+      "Porta": "Retangulo",
+      "PortaPosicao": "Dentro",
+      "Fundo": "False"
+    },
+    "Values": {
+      "Diametro Pescoço": "42,9717",
+      "Altura Pequena Pescoço": "55",
+      "Hipotenusa": "154,0636",
+      "Diametro Base": "350",
+      "Altura Total": "528",
+      "Diametro Pequeno Elipse": "42",
+      "Diametro Grande Elipse": "31",
+      "Espessura": "2"
+    }
+  },
+  {
+    "PresetName": "72",
+    "Options": {
+      "Base": "Cilindro",
+      "Pescoço": "Lado",
+      "Pescoço Adicional": "False",
+      "Porta": "Retangulo",
+      "PortaPosicao": "Dentro",
+      "Fundo": "True"
+    },
+    "Values": {
+      "Diametro Pescoço": "40",
+      "Altura Pequena Pescoço": "20",
+      "Altura Grande Pescoço": "30",
+      "Diametro Base": "130",
+      "Altura Total": "250",
+      "Hipotenusa Fundo": "64,7012",
+      "Diametro Pequeno Elipse": "42",
+      "Diametro Grande Elipse": "31",
+      "Espessura": "2",
+      "Diametro Tubo": "6",
+      "Comprimento Tubo": "65"
+    }
+  },
+  {
+    "PresetName": "F17",
+    "Options": {
+      "Base": "Cone",
+      "Pescoço": "Centrado",
+      "Pescoço Adicional": "False",
+      "Porta": "Retangulo",
+      "PortaPosicao": "Fora",
+      "Fundo": "False"
+    },
+    "Values": {
+      "Diametro Pescoço": "60",
+      "Altura Pequena Pescoço": "30",
+      "Angulo": "105",
+      "Hipotenusa": "65,5",
+      "Diametro Base": "245",
+      "Altura Total": "232",
+      "Diametro Pequeno Elipse": "41",
+      "Diametro Grande Elipse": "50",
+      "Espessura": "6"
+    }
+  },
+  {
+    "PresetName": "F37",
+    "Options": {
+      "Base": "Cone",
+      "Pescoço": "Centrado",
+      "Pescoço Adicional": "False",
+      "Porta": "Retangulo",
+      "PortaPosicao": "Fora",
+      "Fundo": "False"
+    },
+    "Values": {
+      "Diametro Pescoço": "63",
+      "Altura Pequena Pescoço": "33,5",
+      "Angulo": "105",
+      "Hipotenusa": "67,5",
+      "Diametro Base": "246",
+      "Altura Total": "230,5",
+      "Diametro Pequeno Elipse": "40",
+      "Diametro Grande Elipse": "53,5",
+      "Espessura": "6"
+    }
+  },
+  {
+    "PresetName": "F30",
+    "Options": {
+      "Base": "Cone",
+      "Pescoço": "Centrado",
+      "Pescoço Adicional": "False",
+      "Porta": "Retangulo",
+      "PortaPosicao": "Fora",
+      "Fundo": "False"
+    },
+    "Values": {
+      "Diametro Pescoço": "60",
+      "Altura Pequena Pescoço": "31",
+      "Angulo": "105",
+      "Hipotenusa": "94",
+      "Diametro Base": "310",
+      "Altura Total": "362",
+      "Diametro Pequeno Elipse": "40,5",
+      "Diametro Grande Elipse": "60,5",
+      "Espessura": "12"
+    }
+  },
+  {
+    "PresetName": "SF13",
+    "Options": {
+      "Base": "Cilindro",
+      "Pescoço": "Centrado",
+      "Pescoço Adicional": "False",
+      "Porta": "Retangulo",
+      "PortaPosicao": "Dentro",
+      "Fundo": "False"
+    },
+    "Values": {
+      "Diametro Pescoço": "66",
+      "Altura Pequena Pescoço": "35,9",
+      "Hipotenusa": "99,5",
+      "Diametro Base": "250",
+      "Altura Total": "340,79789",
+      "Diametro Pequeno Elipse": "42",
+      "Diametro Grande Elipse": "31",
+      "Espessura": "2"
+    }
+  },
+  {
+    "PresetName": "SF11",
+    "Options": {
+      "Base": "Cone",
+      "Pescoço": "Centrado",
+      "Pescoço Adicional": "True",
+      "Porta": "Retangulo",
+      "PortaPosicao": "Fora",
+      "Fundo": "False"
+    },
+    "Values": {
+      "Diametro Pescoço": "67,7029",
+      "Altura Pequena Pescoço": "20",
+      "Angulo": "120",
+      "Hipotenusa": "21,8",
+      "Diametro Base": "220",
+      "Altura Total": "322,5",
+      "Diametro Pequeno Elipse": "53,5",
+      "Diametro Grande Elipse": "40,2",
+      "Espessura": "5,9",
+      "Altura Pescoço Adicional": "13,5",
+      "Diametro Pescoço Adicional": "98"
+    }
+  }
+]

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ESGI181"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="900" MinWidth="850" MinHeight="650">
+        Title="Cubicagem" Height="720" Width="950" MinWidth="950" MinHeight="720" Icon="assets/images/Icon.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350"/>
@@ -28,7 +28,12 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
@@ -54,21 +59,21 @@
 
             <Button Content="Calcular Volume Atual" Grid.Row="8" Grid.ColumnSpan="2" Margin="10" Click="CalculateVolumeAtual_Click"/>
 
-            <Label Name="VolumeAtual" Grid.Row="9" Content="Volume Atual:" Grid.Column="0" Margin="10"/>
+            <Label Name="VolumeAtual" Grid.Row="9" Content="Volume Vinho:" Grid.Column="0" Margin="10"/>
             <Label Name="ResultadoAtual" Grid.Row="9" Content="" Grid.Column="1" Margin="10"/>
 
-            <ComboBox Grid.Row="11" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="120">
-                <ComboBoxItem Content="SF11"/>
-                <ComboBoxItem Content="SF13"/>
-                <ComboBoxItem Content="F30"/>
-                <ComboBoxItem Content="F37"/>
-                <ComboBoxItem Content="F17"/>
-                <ComboBoxItem Content="72"/>
-                <ComboBoxItem Content="78"/>
-                <ComboBoxItem Content="C69"/>
-                <ComboBoxItem Content="Barrica"/>
-                <ComboBoxItem Content="Tónel"/>
-            </ComboBox>
+            <Label Name="VolumeVazio" Grid.Row="10" Content="Volume Vazio:" Grid.Column="0" Margin="10"/>
+            <Label Name="ResultadoVazio" Grid.Row="10" Content="" Grid.Column="1" Margin="10"/>
+
+            <Label Name="PresetOla" Grid.Row="12" Content="Preset:" Grid.Column="0" Margin="10"/>
+            <TextBox x:Name="PresetTextBox" Grid.Row="12" Grid.Column="1" Margin="10"/>
+
+            <Button Content="Salvar Preset" Grid.Row="13" Grid.ColumnSpan="2" Grid.Column="0" Margin="10" Click="SavePreset_Click"/>
+
+            <ComboBox Name="BoxPresets" Grid.Row="15" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="120" SelectionChanged="BoxPresets_SelectionChanged"/>
+
+            <Button Content="Remover Preset" Grid.Row="16" Grid.ColumnSpan="2" Grid.Column="0" Margin="10" Click="RemoverPreset_Click"/>
+
         </Grid>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -105,6 +110,7 @@
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
@@ -112,24 +118,29 @@
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="120"/>
                     </Grid.ColumnDefinitions>
+                    
                     <Label Content="Pescoço:" Grid.Row="0" Grid.Column="0" Margin="10"/>
                     <CheckBox x:Name="CentradoCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Centrado" Grid.Row="0" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
                     <CheckBox x:Name="NaoCentradoCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Não Centrado" Grid.Row="0" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
 
-                    <Label Content="Base:" Grid.Row="1" Grid.Column="0" Margin="10"/>
-                    <CheckBox x:Name="CilindroBaseCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Cilindro" Grid.Row="1" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
-                    <CheckBox x:Name="ConeBaseCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Cone" Grid.Row="1" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <Label Content="Pescoço Adicional:" Grid.Row="1" Grid.Column="0" Margin="10"/>
+                    <CheckBox x:Name="PescoçoAdicionalNaoCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Não" Grid.Row="1" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <CheckBox x:Name="PescoçoAdicionalSimCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Sim" Grid.Row="1" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
 
-                    <Label Content="Fundo:" Grid.Row="2" Grid.Column="0" Margin="10"/>
-                    <CheckBox x:Name="FundoNaoCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Nao" Grid.Row="2" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
-                    <CheckBox x:Name="FundoSimCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Sim" Grid.Row="2" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <Label Content="Base:" Grid.Row="2" Grid.Column="0" Margin="10"/>
+                    <CheckBox x:Name="CilindroBaseCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Cilindro" Grid.Row="2" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <CheckBox x:Name="ConeBaseCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Cone" Grid.Row="2" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
 
-                    <Label Content="Porta:" Grid.Row="3" Grid.Column="0" Margin="10"/>
-                    <CheckBox x:Name="PortaRetangularCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Retangular" Grid.Row="3" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
-                    <CheckBox x:Name="PortaOvalCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Oval" Grid.Row="3" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <Label Content="Fundo:" Grid.Row="3" Grid.Column="0" Margin="10"/>
+                    <CheckBox x:Name="FundoNaoCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Nao" Grid.Row="3" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <CheckBox x:Name="FundoSimCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Sim" Grid.Row="3" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
 
-                    <CheckBox x:Name="PortaDentroCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Dentro" Grid.Row="4" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
-                    <CheckBox x:Name="PortaForaCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Fora" Grid.Row="4" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <Label Content="Porta:" Grid.Row="4" Grid.Column="0" Margin="10"/>
+                    <CheckBox x:Name="PortaRetangularCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Retangular" Grid.Row="4" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <CheckBox x:Name="PortaOvalCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Oval" Grid.Row="4" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+
+                    <CheckBox x:Name="PortaDentroCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Dentro" Grid.Row="5" Grid.Column="1" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
+                    <CheckBox x:Name="PortaForaCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Fora" Grid.Row="5" Grid.Column="2" Margin="10" Checked="DoorCheckBox_Checked" Unchecked="DoorCheckBox_Unchecked"/>
                 </Grid>
             </ScrollViewer>
             <Grid Grid.Row="2">
@@ -164,12 +175,12 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="210"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
                 <Label Name="DiametroPescoço" Content="Diametro Pescoço (r):" Grid.Row="1" Grid.Column="0" Margin="10"/>
-                <TextBox x:Name="DiametroPescoçoTextBox" Grid.Row="1" Grid.Column="1" Margin="10"/>
+                <TextBox x:Name="DiametroPescoçoTextBox" Grid.Row="1" Grid.Column="1" Margin="10" PreviewTextInput="PositiveNumberTextBox_PreviewTextInput" DataObject.Pasting="PositiveNumberTextBox_Pasting"/>
 
                 <Label Name="AlturaPequenaPescoço" Content="Altura Pescoço (ap):" Grid.Row="2" Grid.Column="0" Margin="10"/>
                 <TextBox x:Name="AlturaPequenaPescoçoTextBox" Grid.Row="2" Grid.Column="1" Margin="10"/>
@@ -206,6 +217,12 @@
 
                 <Label Name="ComprimentoTubo" Content="Comprimento Tubo Fundo (cm):" Grid.Row="13" Grid.Column="0" Margin="10"/>
                 <TextBox x:Name="ComprimentoTuboTextBox" Grid.Row="13" Grid.Column="1" Margin="10"/>
+
+                <Label Name="AlturaPescoçoAdicional" Content="Altura Pescoço Adicional (ad):" Grid.Row="14" Grid.Column="0" Margin="10"/>
+                <TextBox x:Name="AlturaPescoçoAdicionalTextBox" Grid.Row="14" Grid.Column="1" Margin="10"/>
+
+                <Label Name="DiametroPescoçoAdicional" Content="Diametro Pescoço Adicional (da):" Grid.Row="15" Grid.Column="0" Margin="10"/>
+                <TextBox x:Name="DiametroPescoçoAdicionalTextBox" Grid.Row="15" Grid.Column="1" Margin="10"/>
 
             </Grid>
         </ScrollViewer>

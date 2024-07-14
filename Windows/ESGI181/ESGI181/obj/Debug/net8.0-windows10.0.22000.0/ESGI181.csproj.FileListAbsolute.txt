@@ -53,3 +53,4 @@ C:\Users\franc\Desktop\ESGI181\ESGI181\obj\Debug\net8.0-windows10.0.22000.0\refi
 C:\Users\franc\Desktop\ESGI181\ESGI181\obj\Debug\net8.0-windows10.0.22000.0\ESGI181.pdb
 C:\Users\franc\Desktop\ESGI181\ESGI181\obj\Debug\net8.0-windows10.0.22000.0\ESGI181.genruntimeconfig.cache
 C:\Users\franc\Desktop\ESGI181\ESGI181\obj\Debug\net8.0-windows10.0.22000.0\ref\ESGI181.dll
+C:\Users\franc\source\repos\ESGI181D1\Windows\ESGI181\ESGI181\bin\Debug\net8.0-windows10.0.22000.0\Newtonsoft.Json.dll
