@@ -53,20 +53,7 @@ class _ValuesPage extends State<ValuesPage> {
   Map<String, dynamic>? _neededValues;
   final List<dynamic> _neededValuesName = [];
 
-  Future<void> loadJsonData() async {
-    try {
-      final String jsonString = await rootBundle.loadString(
-          'assets/config/neededValues.json');
-      Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
-      setState(() {
-        _neededValues = jsonOptions;
-        decodeJson(); // Initialize options based on default type (VAT)
-      });
-    } catch (e) {
-      print('Error loading options.json: $e');
-      // Handle error loading JSON data
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -239,14 +226,7 @@ class _ValuesPage extends State<ValuesPage> {
     }
   }
 
-  void loadPreset(String name){
-    var tempMap1 = _presets["PRESETS"][name]["Values"];
-    int i = 0;
-    for (var entry in tempMap1.entries){
-      _controllers[i].text = entry.value.toString();
-      i++;
-    }
-  }
+
 
   bool _validateFields() {
     if (_isSnackBarActive){
@@ -280,61 +260,10 @@ class _ValuesPage extends State<ValuesPage> {
     }
     return allFilled;
   }
-  void savePreset() async{
-    if (!_validateFields()){
-      return;
-    }
-    prepareSend();
-    Map<String,Decimal> valuesMapped = Provider.of<OptionsState>(context, listen: false).valuesMapped;
-    await _displayTextInputDialog();
-    if (enteredText == "CANCELED") {
-      return;
-    } else if (enteredText == ""){
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
-          const SnackBar(
-            content: Text('Please insert a valid name'),
-            duration: Duration(seconds: 2),
-          ),);
-          return;
-    }
-    if (doesPresetAlreadyExist(enteredText) == true) {
-        showOverwriteConfirmationDialog();
-    }
-    else{
-      createNewPreset();
-      savePresetFile();
-    }
 
 
-  }
-  bool doesPresetAlreadyExist(String name){
-    if (_presets["PRESETS"].containsKey(name)){
-      return true;
-    }
-    return false;
-  }
-  void createNewPreset(){
-    _presets["PRESETS"][enteredText] = {};
-    Map<String,dynamic> tempMap = {};
-    Map<String,Decimal> tempMap2 = {};
-    for (var entry in Provider.of<OptionsState>(context, listen: false).valuesMapped.entries){
-      var key = entry.key;
-      var value = entry.value;
-      tempMap2[key] = value;
-    }
 
-    Map<String,String> tempMap3 = {};
-    for (var entry in Provider.of<OptionsState>(context, listen: false).encoded){
-      var key = entry.key;
-      var value = entry.value;
-      tempMap3[key] = value;
-    }
-    tempMap["Options"] = tempMap3;
-    tempMap["Values"] = tempMap2;
-    _presets["PRESETS"][enteredText] = tempMap;
-    savePresetFile();
-  }
+
 
   void showOverwriteConfirmationDialog() {
     showDialog(
@@ -364,25 +293,9 @@ class _ValuesPage extends State<ValuesPage> {
     );
   }
 
-  Future<void> savePresetFile() async{
-    final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/presets.json';
-    final jsonString = jsonEncode(_presets);
-    final file = File(filePath);
-    await file.writeAsString(jsonString);
-  }
 
-  Future<void> readJsonFile() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/presets.json';
-    final file = File(filePath);
-    final String jsonString = await file.readAsString();
-    Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
-    setState(() {
-      _presets = jsonOptions;
-      print(_presets);
-    });
-  }
+
+
 
   final TextEditingController _textFieldController = TextEditingController();
   Future<void> _displayTextInputDialog() async {
@@ -422,44 +335,7 @@ class _ValuesPage extends State<ValuesPage> {
   }
 
 
-  void prepareSend() {
-  /*
-      _presets = {"PRESETS":{"C69" :{"Options" : {"Body" : "Cylinder","Top" : "Cone","Neck Position" : "Center","Door" : "Inside","Door Shape" : "Ellipse"},"Values" : {"Neck Diameter" : 40,"Neck Height" : 36,"Hypotenuse" : 136,"Base Diameter" : 304.5,"Total Height" : 521.3,"Door Bigger Diameter" : 43,"Door Smaller Diameter" : 31,"Door Depht" : 1.5}}}};
-      savePresetFile();
-      print('Created or overwritten presets.json file at: ');
-    */
-    savePresetFile();
-    if (!_validateFields()){
-      return;
-    }
-    Map<String,Decimal> valuesMapped = <String,Decimal>{};
-    for (int i = 0; i < _controllers.length; i++){
-      valuesMapped[_neededValuesName[i]] = Decimal.parse(_controllers[i].text);
 
-    }
-    Provider.of<OptionsState>(context, listen: false).updateValuesMapped(valuesMapped);
-  }
 
-  void decodeJson() {
-    /**
-     * Missing CheckBoxes
-     */
-    try {
-      int num = 0;
-      if (_neededValues != null) {
-        for (Pair<String,String> i in Provider.of<OptionsState>(context, listen: false).encoded) {
-          //String (option,selected) = i;
-          if (_neededValues!["NEEDEDVALUES"][_type]["RADIAL"].containsKey(i.key) ) {
-            for (String str in _neededValues!["NEEDEDVALUES"][_type]["RADIAL"][i.key][i.value]) {
-              _neededValuesName.add(str);
-              _controllers.add(TextEditingController());
-            }
-          }
-        }
 
-      }
-    } catch (e) {
-      print('Error decoding needevalues.json: $e');
-    }
-  }
 }
