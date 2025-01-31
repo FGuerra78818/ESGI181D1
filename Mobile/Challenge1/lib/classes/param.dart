@@ -28,4 +28,19 @@ class Param {
   Map<String, List<Pair<String,Decimal>>> getValues() {
     return values;
   }
+
+  // Override toString() to provide a readable representation of the object
+  @override
+  String toString() {
+    final buffer = StringBuffer();
+    buffer.writeln('Param($name)');
+    buffer.writeln('Values:');
+    values.forEach((key, pairList) {
+      buffer.writeln('  $key:');
+      for (var pair in pairList) {
+        buffer.writeln('    $pair');
+      }
+    });
+    return buffer.toString();
+  }
 }

@@ -88,8 +88,10 @@ void main() {
       // Verify that options were created successfully
       expect(result, true);
       for (Option opt in configManager.options){
-        print(opt.getOptionJsonFormat());
-        print(opt.getValuesJsonFormat());
+        //print(opt.getOptionJsonFormat());
+        //print(opt.getValuesJsonFormat());
+        print(opt);
+        print("----------------------------------------------------------------------------------");
       }
       /*
       expect(configManager.options.length, greaterThan(0));

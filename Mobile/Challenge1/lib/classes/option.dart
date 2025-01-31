@@ -37,14 +37,36 @@ class Option {
     return res;
   }
 
-  Map<String, String> getValuesJsonFormat () {
+  Map<String, Map<String, String>> getValuesJsonFormat () {
+    Map<String, Map<String, String>> res = {};
+    Param selectedParam = params[selected];
 
-    Param selectedParams = params[selected].getValues();
-    for (var entry in values.entries){
-      print(entry.key);
-      print(entry.value);
-      res[entry.key] = entry.value.toString();
+
+    Map<String, List<Pair<String,Decimal>>> paramValue = selectedParam.getValues();
+
+    for (var entry in paramValue.entries){
+      if (entry == {}) {continue;}
+      Map<String, String> innermap = {};
+      for (Pair<String, Decimal> pp in entry.value) {
+        innermap[pp.key] = pp.value.toString();
+      }
+      res[entry.key] = innermap;
     }
+
     return res;
   }
+  // Override toString() to provide a readable representation of the object
+  @override
+  String toString() {
+    final buffer = StringBuffer();
+    buffer.writeln('Option(name: $name)');
+    buffer.writeln('Is Checkbox: $isCheckbox');
+    buffer.writeln('Selected: $selected');
+    buffer.writeln('Params:');
+    for (var param in params) {
+      buffer.writeln('  $param');
+    }
+    return buffer.toString();
+  }
+
 }
