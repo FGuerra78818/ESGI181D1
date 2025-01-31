@@ -1,5 +1,48 @@
 {
-  "NEEDEDVALUES": {
+  "NEEDEDVALUES" : {
+    "VAT": {
+      "Fundo" : {
+        "Sim" : {
+          "Geral" : ["Altura Base"],
+          "Fundo" : ["Hipotenusa", "Diametro", "Comprimento"]
+        },
+        "Não" : {
+          "Geral" : ["Altura Total"]
+        }
+      },
+      "Formato Porta" : {
+        "Retangular": {
+          "Porta" : ["Largura", "Comprimento", "Profundidade", "Distância Chão"]
+        },
+        "Oval" : {
+          "Porta" : ["Diametro Menor", "Diametro Maior", "Profundidade", "Distância Chão"]
+        }
+      },
+      "Base" : {
+        "Cilindro" : {
+          "Base" : "Diametro"
+        },
+        "Cone" : {
+          "Base" : "Diametro",
+          "Topo" : "Hipotenusa"
+        }
+      },
+      "Pescoço" : {
+        "Centrado" : {
+         "Pescoço" : ["Diametro", "Altura", "Angulo"]
+        },
+        "Desviado" : {
+          "Pescoço" :
+        ["Diametro", "Altura Menor", "Altura Maior", "Angulo"]
+        }
+      },
+      "Pescoço Adicional" : {
+        "" : {"Base" :  []},
+        "Sim" : {"Pescoço" :  ["Altura Adicional", "Diametro Adicional"]}
+      }
+    }
+  },
+  "TEMPVALUES": {
     "VAT": {
       "BASELINE": ["AlturaMax", "placeholder2"],
       "RADIAL": {

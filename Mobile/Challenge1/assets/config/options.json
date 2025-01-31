@@ -2,13 +2,13 @@
   "OPTIONS":{
     "VAT": {
       "RADIAL": {
-        "Body" : ["Cylinder", "Cone"],
-        "Neck Position" : ["Center", "Side"],
-        "Top" : ["Cone", "Flat"],
-        "Door" : ["Inside", "Outside"],
-        "Door Shape" : ["Cubic", "Ellipse"]
+        "Base" : ["Cilindro", "Cone"],
+        "Porta" : ["Interior", "Exterior"],
+        "Formato Porta" : ["Retangular", "Oval"],
+        "Fundo" : ["Sim", "Não"],
+        "Pescoço" : ["Centrado", "Desviado"]
       },
-      "CHECKBOX": ["Lower Cone"]
+      "CHECKBOX": ["Pescoço Adicional"]
     },
     "BARREL" : {
       "RADIAL": {

@@ -25,8 +25,6 @@ class PresetManager {
     return presetManager;
   }
 
-
-
   Future<Map<String, dynamic>> loadPresets() async{
     if(!await manager.doesFileExist("presets.json")) {
       Map<String, dynamic> defaultPreset = {"PRESETS" : {}};
@@ -36,7 +34,7 @@ class PresetManager {
     return preset;
   }
 
-  Future<Bool> doesPresetAlreadyExist(String name){
+  Future<bool> doesPresetAlreadyExist(String name){
     return presets["PRESETS"].containsKey(name);
   }
 
@@ -53,5 +51,13 @@ class PresetManager {
 
   Future<Map<String, dynamic>> getPreset(String name){
     return presets["PRESETS"][name];
+  }
+
+  bool createNewPreset(String name, Map<String,dynamic> options, Map<String,dynamic> values) {
+      Map<String,dynamic> newPreset = {};
+      newPreset["OPTIONS"] = options;
+      newPreset["VALUES"] = values;
+      savePreset(name, newPreset);
+      return true;
   }
 }
