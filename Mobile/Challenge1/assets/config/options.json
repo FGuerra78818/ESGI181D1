@@ -9,11 +9,6 @@
         "Pescoço" : ["Centrado", "Desviado"]
       },
       "CHECKBOX": ["Pescoço Adicional"]
-    },
-    "BARREL" : {
-      "RADIAL": {
-        "Type" : ["Normal", "Porto"]
-      }
     }
   }
 }

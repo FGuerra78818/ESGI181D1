@@ -13,8 +13,10 @@ class Option {
 
   factory Option.createOption(String name, Map<String, Map<String, List<String>>> paramss) {
     List<Param> params2 = [];
+    int id = 0;
     for (var entry in paramss.entries){
-      params2.add(Param.createParam(entry.key, entry.value));
+      params2.add(Param.createParam(entry.key, entry.value, id));
+      id++;
     }
     return Option(name: name, params: params2);
   }

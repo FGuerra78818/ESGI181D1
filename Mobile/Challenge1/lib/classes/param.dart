@@ -4,12 +4,13 @@ import 'package:pair/pair.dart';
 class Param {
   final String name;
   Map<String, List<Pair<String,Decimal>>> values = {};
+  int id;
 
   // Constructor
-  Param(this.name, this.values);
+  Param(this.name, this.values, this.id);
 
   // Factory constructor to create a Param instance
-  factory Param.createParam(String aname, Map<String, List<String>> names) {
+  factory Param.createParam(String aname, Map<String, List<String>> names, id) {
     Map<String, List<Pair<String,Decimal>>> values = {};
     for (var entry in names.entries) {
       List<Pair<String, Decimal>> tempList = [];
@@ -18,7 +19,7 @@ class Param {
       }
       values[entry.key] = tempList;
     }
-    return Param(aname, values);
+    return Param(aname, values, id);
   }
 
   String getName() {

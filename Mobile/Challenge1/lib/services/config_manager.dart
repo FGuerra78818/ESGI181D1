@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:challenge1/classes/option.dart';
+import 'package:challenge1/classes/param.dart';
 import 'package:challenge1/services/file_manager.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ConfigManager {
   final manager = FileManager();
@@ -16,13 +14,14 @@ class ConfigManager {
   static Future<ConfigManager> create() async {
     ConfigManager configManager = ConfigManager({}, {});
     await configManager.loadConfig();
+    configManager.createOptions();
     return configManager;
   }
   
   Future<bool> loadConfig() async {
     try {
       Joptions = await loadConfigFile("options.json");
-      JneededValues = await loadConfigFile("neededvalues.json");
+      JneededValues = await loadConfigFile("neededValues.json");
       return true;
     } catch (e) {
       return false;
@@ -51,10 +50,45 @@ class ConfigManager {
         options.add(Option.createOption(key, getNeededValues(key)));
       }
     }
+    for (var entry in Joptions["OPTIONS"][type]["CHECKBOX"]){
+      var res = getNeededValues(entry);
+      Map<String, List<String>> values = {};
+      var values1 = res["Sim"];
+      List<Param> params = [Param.createParam("", values, 0), Param.createParam("Sim", values1!, 1)];
+      Option option = Option(name: entry, params: params, isCheckbox: true, selected: 0);
+      options.add(option);
+    }
+
     return true;
   }
 
-  Map<String, Map<String,List<String>>> getNeededValues(String option){
-    return JneededValues["NEEDEDVALUES"][type][option];
+  Map<String, Map<String, List<String>>> getNeededValues(String option) {
+    Map<String, Map<String, List<String>>> res = {};
+    try {
+      // First, cast the retrieved value as Map<String, dynamic>
+      final dynamic rawData = JneededValues["NEEDEDVALUES"][type][option];
+      // Now convert rawData into the desired type:
+      res = (rawData as Map<String, dynamic>).map((outerKey, outerValue) {
+        // Each outerValue should itself be a Map; cast it accordingly.
+        final innerMap = (outerValue as Map<String, dynamic>).map((innerKey, innerValue) {
+          // Convert the innerValue (expected List<dynamic>) into List<String>
+          return MapEntry(innerKey, List<String>.from(innerValue));
+        });
+        return MapEntry(outerKey, innerMap);
+      });
+    } catch (e) {
+      print(e);
+    }
+    return res;
   }
+
+
+  void handleSelectedChange(String optname, int paramId){
+    for (Option option in options){
+      if (option.name == optname){
+        option.selected = paramId;
+      }
+    }
+  }
+
 }

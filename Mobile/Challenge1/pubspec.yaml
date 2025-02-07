@@ -39,6 +39,7 @@ dependencies:
   decimal: ^3.0.2
   provider: ^6.0.0
   path_provider: ^2.0.15
+  flutter_native_splash: ^2.4.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,7 +69,6 @@ flutter:
      - assets/
      - assets/icons/
      - assets/config/
-     - assets/config/options.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

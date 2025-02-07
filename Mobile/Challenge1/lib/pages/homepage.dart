@@ -1,5 +1,4 @@
 
-import 'package:challenge1/pages/valuespage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -85,14 +84,14 @@ class _HomePage extends State<HomePage> {
           reverseTransitionDuration: Duration.zero,
         ));
         break;
-      case 2:
+      case 2:/*
         Navigator.of(context).push(PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) => const ValuesPage(),
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
         ));
 
-        break;
+        break;*/
     }
   }
 }

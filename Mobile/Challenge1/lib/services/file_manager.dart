@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 
 class FileManager {
@@ -11,23 +12,14 @@ class FileManager {
   FileManager._internal();
 
   Future<String> _getDocumentsPath() async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
+    return 'assets/config';
   }
 
   /// Reads a file and returns its content as a Map (JSON)
   Future<Map<String, dynamic>> readJsonFile(String fileName) async {
     try {
-      final path = await _getDocumentsPath();
-      final file = File('$path/$fileName');
-
-      if (await file.exists()) {
-        final jsonString = await file.readAsString();
-        return jsonDecode(jsonString) as Map<String, dynamic>;
-      } else {
-        print('File "$fileName" does not exist.');
-        return {};
-      }
+      final jsonString = await rootBundle.loadString('assets/config/$fileName');
+      return jsonDecode(jsonString) as Map<String, dynamic>;
     } catch (e) {
       print('Error reading file "$fileName": $e');
       return {};

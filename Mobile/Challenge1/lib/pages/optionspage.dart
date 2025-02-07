@@ -1,16 +1,14 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:challenge1/pages/valuespage.dart';
 import 'package:challenge1/pages/homepage.dart';
-import 'package:pair/pair.dart';
 import 'package:challenge1/pages/optionState.dart';
 import 'package:provider/provider.dart';
 
+import '../classes/param.dart';
 
-enum RecipientTypes { vat, barrel }
+
+enum RecipientTypes { VAT, BARREL }
 
 
 class OptionsPage extends StatefulWidget {
@@ -28,44 +26,10 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   void initState() {
     super.initState();
-    _type = Provider.of<OptionsState>(context, listen: false).type == "VAT" ? RecipientTypes.vat : RecipientTypes.barrel;
-    loadJsonData();
+    _type = Provider.of<OptionsState>(context, listen: false).type == "VAT" ? RecipientTypes.VAT : RecipientTypes.BARREL;
   }
 
-  final List<List<dynamic>> _vatRadioOptions = [];
-  RecipientTypes? _type = RecipientTypes.vat;
-  final List<String> _options = [];
-
-  // Header Name, Option 1, Option 2
-  List<List<String>> _radioOptions = [];
-
-  List<int> _radioOptionsSelected = [];
-  List<String> _selectedOptions = [];
-
-  Map<String, dynamic>? _optionsJson;
-
-
-  Future<void> loadJsonData() async {
-    try {
-      final String jsonString = await rootBundle.loadString(
-          'assets/config/options.json');
-      Map<String, dynamic> jsonOptions = jsonDecode(jsonString);
-      setState(() {
-        _optionsJson = jsonOptions;
-        _updateOptions();
-        if (Provider.of<OptionsState>(context, listen: false).hasBeenLoaded) {
-          loadOptionState();
-        } else{
-          updateOptionState();
-          Provider.of<OptionsState>(context, listen: false).togglehasBeenLoaded();
-        }
-      });
-    } catch (e) {
-      print('Error loading options.json: $e');
-      // Handle error loading JSON data
-    }
-  }
-
+  RecipientTypes? _type = RecipientTypes.VAT;
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +37,21 @@ class _OptionsPageState extends State<OptionsPage> {
       backgroundColor: const Color(0xFFFFFAEB),
       appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
-      body: _optionsJson == null
-          ? const Center(child: CircularProgressIndicator())
-          : buildSingleChildScrollView(),
+      body: Consumer<OptionsState>(
+        builder: (context, optionsState, child) {
+          if (!optionsState.hasBeenLoaded) {
+            print("Loading spinner is being displayed");
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return buildSingleChildScrollView();
+          }
+        },
+      ),
     );
   }
+
 
   AppBar buildAppBar() {
     return AppBar(
@@ -126,14 +100,13 @@ class _OptionsPageState extends State<OptionsPage> {
               children: <Widget>[
                 Expanded(
                   child: ListTile(
-                    title: const Text('Vat'),
+                    title: const Text('Cuba'),
                     leading: Radio<RecipientTypes>(
-                      value: RecipientTypes.vat,
+                      value: RecipientTypes.VAT,
                       groupValue: _type,
                       onChanged: (RecipientTypes? value) {
                         setState(() {
                           _type = value;
-                          _updateOptions();
                         });
                       },
                     ),
@@ -141,14 +114,13 @@ class _OptionsPageState extends State<OptionsPage> {
                 ),
                 Expanded(
                   child: ListTile(
-                    title: const Text('Barrel'),
+                    title: const Text('Pipa'),
                     leading: Radio<RecipientTypes>(
-                      value: RecipientTypes.barrel,
+                      value: RecipientTypes.BARREL,
                       groupValue: _type,
                       onChanged: (RecipientTypes? value) {
                         setState(() {
                           _type = value;
-                          _updateOptions();
                         });
                       },
                     ),
@@ -160,69 +132,65 @@ class _OptionsPageState extends State<OptionsPage> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
-              children: [
-                for (int i = 0; i < _radioOptions.length; i++)
-                  Column(
-                    children: [
+                children: [
+                  Builder(
+                    builder: (_) {
+                      return SizedBox.shrink(); // Placeholder widget for print
+                    },
+                  ),
+                  if (_type == RecipientTypes.VAT) ...[
+                  for (var option in Provider.of<OptionsState>(context, listen: false).conf.options)
+                    Column(
+                      children: [
                       Align(
-                        alignment: Alignment.centerLeft,
-
+                      alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16.0),
-
-                          child: Text(_radioOptions[i][0],
-                            textAlign: TextAlign.center,
+                          child: Text(
+                            option.name,
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
                               color: Colors.black,
                             ),),),),
-                      Row(
-                        children: [
-                          for (int j = 1; j < 3; j++)
-                            Expanded(
-                                child: ListTile(
-                                  title: Text(_radioOptions[i][j]),
-                                  leading: Radio<String>(
-                                    value: _radioOptions[i][j],
-                                    groupValue: _radioOptions[i][_radioOptionsSelected[i] +1],
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        _updateRadialOptions(i, j);
-                                      });
-                                    },
-                                  ),
-                                )),
-                        ],),
+                        LayoutBuilder(
+                            builder: (context, constrains) {
+                              return Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: [
+                                  for (final param in option.params)
+                                    if (param.name.isNotEmpty)
+                                    SizedBox(
+                                      width: constrains.maxWidth /2 - 12,
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        title: Text(param.name),
+                                        leading: option.isCheckbox
+                                        ? Checkbox(
+                                          value: option.selected == 1,
+                                          onChanged: (value) => _handleCheckboxChange(option.name, param.id, option.selected),)
+                                            : Radio<Param>(
+                                          value: param,
+                                          groupValue: option.params[option.selected],
+                                          onChanged: (Param? value) {
+                                            setState(() {_handleRadioChange(option.name, param.id);});
+
+                                          }
+                                        ),
+                                      ),
+                                    )
+                                ],
+                              );
+                            },
+                        ),
+                        const SizedBox(height: 16),
                     ],
                   ),
-              ],
-            ),
+                ]],
           ),
-
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-                children: [
-                  for (var option in _options)
-                    CheckboxListTile(
-                      title: Text(option),
-                      value: _selectedOptions.contains(option),
-                      onChanged: (bool? value) {
-                        setState(() {
-                          if (value != null && value) {
-                            _selectedOptions.add(option);
-                          } else {
-                            _selectedOptions.remove(option);
-                          }
-                        });
-                      },)
-                ]
-            ),
-          ),
-        ],
-      ),
-    );
+          )]),
+      );
   }
 
   BottomNavigationBar buildBottomNavigationBar() {
@@ -267,60 +235,23 @@ class _OptionsPageState extends State<OptionsPage> {
     );
   }
 
-  void _updateRadialOptions(int i, int j) {
-    if (j == 1) {
-      _selectedOptions.remove(_radioOptions[i][0] + _radioOptions[i][2]);
-      _selectedOptions.add(_radioOptions[i][0] + _radioOptions[i][1]);
-      _radioOptionsSelected[i] = 0;
+
+  void _handleCheckboxChange(String option, int param, int value)  {
+    if (value == 1) {
+      Provider.of<OptionsState>(context, listen: false)
+          .conf.handleSelectedChange(option, 0);
     } else {
-      _selectedOptions.remove(_radioOptions[i][0] + _radioOptions[i][1]);
-      _selectedOptions.add(_radioOptions[i][0] + _radioOptions[i][2]);
-      _radioOptionsSelected[i] = 1;
+      Provider.of<OptionsState>(context, listen: false)
+          .conf.handleSelectedChange(option, 1);
     }
+    setState(() {});
   }
 
-  void _updateOptions() {
-    String toDecode = "";
-    if (_type == RecipientTypes.vat) {
-      toDecode = "VAT";
-    }
-    else if (_type == RecipientTypes.barrel) {
-      toDecode = "BARREL";
-    }
-    if (_optionsJson != null) {
-      _radioOptions.clear();
-      _options.clear();
-      if (_optionsJson!["OPTIONS"][toDecode].containsKey("CHECKBOX")) {
-        _optionsJson!["OPTIONS"][toDecode]["CHECKBOX"].forEach((key) {
-          _options.add(key);
-        });
-      }
-
-      _vatRadioOptions.clear();
-      if (_optionsJson!["OPTIONS"][toDecode].containsKey("RADIAL")) {
-        _optionsJson!["OPTIONS"][toDecode]["RADIAL"].forEach((key, value) {
-          List<dynamic> optionList = [key];
-          optionList.addAll(value.cast<String>());
-          _vatRadioOptions.add(optionList);
-        });
-      }
-      _radioOptions = _vatRadioOptions.map((innerList) {
-        return innerList.map((element) => element.toString()).toList();
-      }).toList();
-
-      _radioOptionsSelected.clear();
-      for (int i = 0; i < _radioOptions.length; i++) {
-        _radioOptionsSelected.add(0);
-      }
-
-      _selectedOptions.clear();
-    }
-
+  void _handleRadioChange(String option, int param){
+    Provider.of<OptionsState>(context, listen: false).conf.handleSelectedChange(option, param);
   }
-
 
   void _navigate(int index) {
-    updateOptionState();
     switch (index) {
       case 0:
         Navigator.of(context).push(PageRouteBuilder(
@@ -333,53 +264,16 @@ class _OptionsPageState extends State<OptionsPage> {
       case 1:
       // Current page is OptionsPage, no need to navigate
         break;
-      case 2:
+      /*case 2:
         //print("olá: ${Provider.of<OptionsState>(context).selectedOptions} , ${Provider.of<OptionsState>(context).radioOptionsSelected} ");
-        List<Pair<String, String>> encoded = encodeRadioSelection();
-        Provider.of<OptionsState>(context, listen: false).updateEncoded(encoded);
         Navigator.of(context).push(PageRouteBuilder(
           pageBuilder: (context, animation,
               secondaryAnimation) => const ValuesPage(),
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
         ));
-        break;
+        break;*/
     }
   }
 
-  List<Pair<String, String>> encodeRadioSelection() {
-    List<Pair<String, String>> encoded = [];
-    String toEncode = "";
-    if (_type == RecipientTypes.vat) {
-      toEncode = "VAT";
-    }
-    else if (_type == RecipientTypes.barrel) {
-      toEncode = "BARREL";
-    }
-    try {
-      int i = 0;
-      _optionsJson!["OPTIONS"][toEncode]["RADIAL"].forEach((key,value) {
-        String master = key;
-        List<dynamic> temp = value;
-        var tempPair = Pair<String, String>(master,temp[Provider.of<OptionsState>(context, listen: false).radioOptionsSelected[i]].toString());
-
-        encoded.add(tempPair);
-        i++;
-      });
-    } catch (e) {
-      print('Error Encoding options: $e');
-      // Handle error loading JSON data
-    }
-    return encoded;
-  }
-  void updateOptionState(){
-    Provider.of<OptionsState>(context, listen: false).updateSelectedOptions(_selectedOptions);
-    Provider.of<OptionsState>(context, listen: false).updateRadioOptionsSelected(_radioOptionsSelected);
-    Provider.of<OptionsState>(context, listen: false).updateType(_type == RecipientTypes.vat ? "VAT" : "BARREl");
-  }
-  void loadOptionState(){
-    _selectedOptions = Provider.of<OptionsState>(context, listen: false).selectedOptions;
-    _radioOptionsSelected = Provider.of<OptionsState>(context, listen: false).radioOptionsSelected;
-
-  }
 }

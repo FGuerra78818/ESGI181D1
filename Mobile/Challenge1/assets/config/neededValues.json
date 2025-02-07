@@ -20,11 +20,11 @@
       },
       "Base" : {
         "Cilindro" : {
-          "Base" : "Diametro"
+          "Base" : ["Diametro"]
         },
         "Cone" : {
-          "Base" : "Diametro",
-          "Topo" : "Hipotenusa"
+          "Base" : ["Diametro"],
+          "Topo" : ["Hipotenusa"]
         }
       },
       "Pescoço" : {
