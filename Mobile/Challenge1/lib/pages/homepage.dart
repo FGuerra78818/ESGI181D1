@@ -18,16 +18,16 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFFFFFAEB),
+        backgroundColor: const Color(0xFFFFFFFF),
         appBar: buildAppBar(),
         bottomNavigationBar: buildBottomNavigationBar());
         //body: buildSingleChildScrollView());
   }
   AppBar buildAppBar() {
     return AppBar(
-      title: const Text('Cubicagem',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w800),),
+      title: const Text('Cubicagem',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800),),
       centerTitle: true,
-      backgroundColor: const Color(0xAAFFD447),
+      backgroundColor: const Color(0xFFFFF0C2),
       //actions: [
       /*
         IconButton(
@@ -44,10 +44,10 @@ class _HomePage extends State<HomePage> {
 
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: const Color(0xAAFFD447),
+      backgroundColor: const Color(0xFFFFF0C2),
       currentIndex: 0,
       onTap: _navigate,
-      selectedItemColor: Colors.white,
+      selectedItemColor: Colors.black,
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
@@ -63,8 +63,8 @@ class _HomePage extends State<HomePage> {
               'assets/icons/map.svg', height: 25, width: 30,),
             label: ("VALUES")),
       ],
-      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,),
-      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,),
+      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,color: Colors.black),
+      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900,color: Colors.black),
     );
   }
 

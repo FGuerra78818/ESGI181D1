@@ -58,7 +58,7 @@ class _ValuesPage extends State<ValuesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFFFFFAEB),
+        backgroundColor: const Color(0xFFFFFFFF),
         appBar: buildAppBar(),
         bottomNavigationBar: buildBottomNavigationBar(),
      body: _presets == {}
@@ -69,9 +69,9 @@ class _ValuesPage extends State<ValuesPage> {
 
   AppBar buildAppBar() {
     return AppBar(
-      title: const Text('Cubicagem',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w800),),
+      title: const Text('Cubicagem',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800),),
       centerTitle: true,
-      backgroundColor: const Color(0xAAFFD447),
+      backgroundColor: const Color(0xFFFFF0C2),
       //actions: [
       /*
         IconButton(

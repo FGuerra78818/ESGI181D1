@@ -34,7 +34,7 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFAEB),
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
       body: Consumer<OptionsState>(
@@ -55,9 +55,9 @@ class _OptionsPageState extends State<OptionsPage> {
 
   AppBar buildAppBar() {
     return AppBar(
-      title: const Text('Cubicagem',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w800),),
+      title: const Text('Cubicagem',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800),),
       centerTitle: true,
-      backgroundColor: const Color(0xAAFFD447),
+      backgroundColor: const Color(0xFFFFF0C2),
       //actions: [
       /*
         IconButton(
@@ -75,7 +75,7 @@ class _OptionsPageState extends State<OptionsPage> {
         .of(context)
         .size
         .height;
-    final double paddingTop = screenHeight * 0.075; // 7.5%
+    final double paddingTop = screenHeight * 0.04; // 7.5%
 
     return SingleChildScrollView(
       child: Column(
@@ -84,7 +84,7 @@ class _OptionsPageState extends State<OptionsPage> {
           Container(
             padding: const EdgeInsets.all(20),
             child: const Text(
-              'Select the type',
+              'Seleciona o tipo',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 32,
@@ -135,7 +135,7 @@ class _OptionsPageState extends State<OptionsPage> {
                 children: [
                   Builder(
                     builder: (_) {
-                      return SizedBox.shrink(); // Placeholder widget for print
+                      return const SizedBox.shrink(); // Placeholder widget for print
                     },
                   ),
                   if (_type == RecipientTypes.VAT) ...[
@@ -161,25 +161,26 @@ class _OptionsPageState extends State<OptionsPage> {
                                 children: [
                                   for (final param in option.params)
                                     if (param.name.isNotEmpty)
-                                    SizedBox(
-                                      width: constrains.maxWidth /2 - 12,
-                                      child: ListTile(
-                                        contentPadding: EdgeInsets.zero,
-                                        title: Text(param.name),
-                                        leading: option.isCheckbox
-                                        ? Checkbox(
-                                          value: option.selected == 1,
-                                          onChanged: (value) => _handleCheckboxChange(option.name, param.id, option.selected),)
-                                            : Radio<Param>(
-                                          value: param,
-                                          groupValue: option.params[option.selected],
-                                          onChanged: (Param? value) {
-                                            setState(() {_handleRadioChange(option.name, param.id);});
+                                      if (!option.isCheckbox)
+                                        SizedBox(
+                                            width: constrains.maxWidth /2 - 12,
+                                            child: ListTile(
+                                              contentPadding: EdgeInsets.zero,
+                                              title: Text(param.name),
+                                              leading: Radio<Param>(
+                                                  value: param,
+                                                  groupValue: option.params[option.selected],
+                                                  onChanged: (Param? value) {
+                                                    setState(() {_handleRadioChange(option.name, param.id);});
 
-                                          }
-                                        ),
-                                      ),
-                                    )
+                                                  }
+                                              ),
+                                            ),)
+                                      else
+                                        Row( crossAxisAlignment: CrossAxisAlignment.start, children: [Transform.translate(offset: const Offset(8, 0), child: Checkbox(
+                                        value: option.selected == 1,
+                                        onChanged: (value) => _handleCheckboxChange(option.name, param.id, option.selected),
+                                      ))])
                                 ],
                               );
                             },
@@ -195,10 +196,10 @@ class _OptionsPageState extends State<OptionsPage> {
 
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: const Color(0xAAFFD447),
+      backgroundColor: const Color(0xFFFFF0C2),
       currentIndex: 1,
       onTap: _navigate,
-      selectedItemColor: Colors.white,
+      selectedItemColor: Colors.black,
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
