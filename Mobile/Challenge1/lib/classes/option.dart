@@ -1,5 +1,5 @@
-import 'package:challenge1/classes/param.dart';
 import 'package:decimal/decimal.dart';
+import 'package:challenge1/classes/param.dart';
 import 'package:pair/pair.dart';
 
 // For Checkbox representation params = ["","Sim"]
@@ -21,6 +21,16 @@ class Option {
     return Option(name: name, params: params2);
   }
 
+  Map<String, List<Pair<String,Decimal>>> getNeededValues() {
+    Map<String, List<Pair<String,Decimal>>> res = {};
+    for (var param in params){
+      if (param.id == selected){
+        res.addAll(param.values);
+      }
+    }
+    return res;
+  }
+
   void changeSelected(int param) {
     // Copy same value names
     int pselected = selected;
@@ -39,22 +49,29 @@ class Option {
     return res;
   }
 
-  Map<String, Map<String, String>> getValuesJsonFormat () {
-    Map<String, Map<String, String>> res = {};
+  int getParamId(String paramName){
+    for (var param in params){
+      if (param.name == paramName){
+        return param.id;
+      }
+    }
+    return -1;
+  }
+
+  Map<String, Decimal> getValuesJsonFormat () {
+    Map<String, Decimal> res = {};
     Param selectedParam = params[selected];
 
 
     Map<String, List<Pair<String,Decimal>>> paramValue = selectedParam.getValues();
 
     for (var entry in paramValue.entries){
-      if (entry == {}) {continue;}
-      Map<String, String> innermap = {};
+      String name = entry.key.toString();
       for (Pair<String, Decimal> pp in entry.value) {
-        innermap[pp.key] = pp.value.toString();
+        String newName = pp.key.toString() + ' ' + name;
+        res[newName] = pp.value;
       }
-      res[entry.key] = innermap;
     }
-
     return res;
   }
   // Override toString() to provide a readable representation of the object

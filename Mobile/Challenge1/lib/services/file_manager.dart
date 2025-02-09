@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 
 class FileManager {
   // Singleton pattern (optional, ensures a single instance of FileManager)
@@ -11,13 +12,32 @@ class FileManager {
   FileManager._internal();
 
   Future<String> _getDocumentsPath() async {
-    return 'assets/config';
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
   }
 
   /// Reads a file and returns its content as a Map (JSON)
   Future<Map<String, dynamic>> readJsonFile(String fileName) async {
     try {
       final jsonString = await rootBundle.loadString('assets/config/$fileName');
+      return jsonDecode(jsonString) as Map<String, dynamic>;
+    } catch (e) {
+      print('Error reading file "$fileName": $e');
+      return {};
+    }
+  }
+
+  Future<Map<String, dynamic>> readDirJsonFile(String fileName) async {
+    try {
+      final path = await _getDocumentsPath();
+      final file = File('$path/$fileName');
+
+      if (!await file.exists()) {
+        print('File "$fileName" does not exist.');
+        return {};
+      }
+
+      final jsonString = await file.readAsString();
       return jsonDecode(jsonString) as Map<String, dynamic>;
     } catch (e) {
       print('Error reading file "$fileName": $e');
@@ -41,6 +61,12 @@ class FileManager {
 
   /// Checks if a file exists
   Future<bool> doesFileExist(String fileName) async {
+    final file = File('assets/config/$fileName');
+    return await file.exists();
+  }
+
+  /// Checks if a file exists
+  Future<bool> doesDirFileExist(String fileName) async {
     final path = await _getDocumentsPath();
     final file = File('$path/$fileName');
     return await file.exists();

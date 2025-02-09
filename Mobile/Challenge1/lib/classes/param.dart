@@ -30,6 +30,19 @@ class Param {
     return values;
   }
 
+  Decimal getValue(String valName, String valPart){
+    for (var entry in values.entries){
+      if (valPart == entry.key){
+        for (var entry2 in entry.value){
+          if (entry2.key == valName){
+            return entry2.value;
+          }
+        }
+      }
+    }
+    return Decimal.parse('-1');
+  }
+
   // Override toString() to provide a readable representation of the object
   @override
   String toString() {

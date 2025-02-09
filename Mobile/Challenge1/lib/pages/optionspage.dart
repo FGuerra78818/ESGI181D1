@@ -1,4 +1,5 @@
 
+import 'package:challenge1/pages/valuespage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:challenge1/pages/homepage.dart';
@@ -40,7 +41,6 @@ class _OptionsPageState extends State<OptionsPage> {
       body: Consumer<OptionsState>(
         builder: (context, optionsState, child) {
           if (!optionsState.hasBeenLoaded) {
-            print("Loading spinner is being displayed");
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -58,16 +58,6 @@ class _OptionsPageState extends State<OptionsPage> {
       title: const Text('Cubicagem',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800),),
       centerTitle: true,
       backgroundColor: const Color(0xFFFFF0C2),
-      //actions: [
-      /*
-        IconButton(
-          icon: Icon(Icons.more_vert),
-          onPressed: () {
-            // Implement more options functionality here
-            print('More button pressed');
-          },
-        ),
-     ],*/
     );
   }
   Widget buildSingleChildScrollView() {
@@ -265,7 +255,7 @@ class _OptionsPageState extends State<OptionsPage> {
       case 1:
       // Current page is OptionsPage, no need to navigate
         break;
-      /*case 2:
+      case 2:
         //print("olá: ${Provider.of<OptionsState>(context).selectedOptions} , ${Provider.of<OptionsState>(context).radioOptionsSelected} ");
         Navigator.of(context).push(PageRouteBuilder(
           pageBuilder: (context, animation,
@@ -273,7 +263,7 @@ class _OptionsPageState extends State<OptionsPage> {
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
         ));
-        break;*/
+        break;
     }
   }
 
