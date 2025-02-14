@@ -1,5 +1,7 @@
 import 'package:challenge1/pages/homepage.dart';
 import 'package:challenge1/pages/optionState.dart';
+import 'package:challenge1/theme/dark_theme.dart';
+import 'package:challenge1/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,9 +9,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(ChangeNotifierProvider(
     create: (context) => OptionsState(),
-    child: const MaterialApp(
-      home: HomePage(),
-    )
+    child: MyApp(),
   ));
 }
 
@@ -21,8 +21,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'Poppins'),
-    home: const HomePage(),
+        theme: lightTheme1,
+        darkTheme: darkTheme1,
+        themeMode: Provider.of<OptionsState>(context).themeMode,
+        home: const HomePage(),
     );
   }
 }

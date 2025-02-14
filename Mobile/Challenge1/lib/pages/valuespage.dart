@@ -67,7 +67,7 @@ class _ValuesPageState extends State<ValuesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: buildAppBar(context),
       body: Consumer<OptionsState>(
         builder: (context, optionsState, child) {
@@ -78,24 +78,10 @@ class _ValuesPageState extends State<ValuesPage> {
           }
         }
       ),
-      bottomNavigationBar: const NavBar(),
+      bottomNavigationBar: NavBar(currentIndex: 2,),
     );
   }
 
-
-  AppBar _buildAppBar() {
-    return AppBar(
-      title: const Text(
-        'Cubicagem',
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-      centerTitle: true,
-      backgroundColor: const Color(0xFFFFF0C2),
-    );
-  }
 
   Widget _buildBody() {
     final optionsState = Provider.of<OptionsState>(context, listen: false);
@@ -104,7 +90,7 @@ class _ValuesPageState extends State<ValuesPage> {
       children: [
         _buildPresetSelector(),
         Expanded(
-          child: !optionsState.hasBeenLoaded || _controllers.isEmpty
+          child: !optionsState.optionsSelected || _controllers.isEmpty
               ? const Center(
             child: Text(
               "Escolha opções ou preset",
@@ -154,7 +140,6 @@ class _ValuesPageState extends State<ValuesPage> {
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black87,
                 ),
               ),
             ),
@@ -179,9 +164,14 @@ class _ValuesPageState extends State<ValuesPage> {
             Expanded(
               child: ElevatedButton(
                 onPressed: _handleCalculate,
-                child: const Text("Calculate"),
+                style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              ),
+                child: const Text("Calcular", style: TextStyle(fontWeight: FontWeight.w500),
               ),
             ),
+            )
           ],
         ),
         Row(
@@ -212,7 +202,7 @@ class _ValuesPageState extends State<ValuesPage> {
     ScaffoldMessenger.of(context)
         .showSnackBar(
       SnackBar(
-        content: Text(allFilled ? 'All fields filled!' : 'Please fill all fields'),
+        content: Text(allFilled ? 'Tudo está preenchido!' : 'Têm que preencher todos os valores'),
         duration: const Duration(seconds: 2),
       ),
     )
@@ -313,7 +303,7 @@ class _PresetSelectorState extends State<PresetSelector>{
     return Container(
       margin: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        border:  Border.all(color: Colors.black45),
+        border:  Border.all(color: Theme.of(context).colorScheme.onPrimary),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
@@ -328,7 +318,7 @@ class _PresetSelectorState extends State<PresetSelector>{
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
               decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: isExpanded
                   ? const BorderRadius.only(
                     topLeft: Radius.circular(8.0),
@@ -348,7 +338,7 @@ class _PresetSelectorState extends State<PresetSelector>{
           if (isExpanded )
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: Theme.of(context).colorScheme.onSecondary,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(8.0),
                   bottomRight: Radius.circular(8.0),
@@ -414,13 +404,13 @@ class _PresetSelectorState extends State<PresetSelector>{
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Delete Preset"),
+        title: const Text("Eliminar Preset"),
         content:
-        Text("Are you sure you want to delete the preset \"$presetName\"? This action cannot be undone."),
+        Text("Tens a certeza que queres eliminar o preset \"$presetName\"? Não pode ser recuperado."),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(), // Cancel action
-            child: const Text("Cancel"),
+            child: const Text("Cancelar"),
           ),
           TextButton(
             onPressed: () {
@@ -428,7 +418,7 @@ class _PresetSelectorState extends State<PresetSelector>{
               Navigator.of(context).pop(); // Close dialog
               setState(() {}); // Refresh UI after deletion
             },
-            child: const Text("Delete", style: TextStyle(color: Colors.red)),
+            child: const Text("Eliminar", style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -454,17 +444,17 @@ class _PresetSaveWidgetState extends State<PresetSaveWidget> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Save Preset'),
+          title: const Text('Guardar Preset'),
           content: TextField(
             controller: _textFieldController,
-            decoration: const InputDecoration(hintText: "Insert Preset Name"),
+            decoration: const InputDecoration(hintText: "Insere o nome do Preset"),
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'^\w{0,8}')), // Limit to alphanumeric and 8 characters
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('CANCEL'),
+              child: const Text('CANCELAR'),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -491,24 +481,24 @@ class _PresetSaveWidgetState extends State<PresetSaveWidget> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Overwrite Confirmation'),
+          title: const Text('Confirmação para Reescrever'),
           content:
-          Text('A preset with the name "$presetName" already exists. Do you want to overwrite it?'),
+          Text('Um preset com nome "$presetName" já existe. Quer que seja reescrito?'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
             ),
             TextButton(
-              child: const Text('Overwrite'),
+              child: const Text('Reescrever'),
               onPressed: () {
                 Provider.of<OptionsState>(context, listen: false)
                     .savePreset(presetName);
                 Navigator.of(context).pop(); // Close the dialog
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Preset "$presetName" overwritten successfully!')),
+                  SnackBar(content: Text('O preset "$presetName" foi reescrito com sucesso!')),
                 );
               },
             ),
@@ -528,7 +518,7 @@ class _PresetSaveWidgetState extends State<PresetSaveWidget> {
       // Save new preset
       optionsState.savePreset(presetName);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Preset "$presetName" saved successfully!')),
+        SnackBar(content: Text('O preset "$presetName" foi guardado!')),
       );
     }
   }
@@ -540,10 +530,10 @@ class _PresetSaveWidgetState extends State<PresetSaveWidget> {
       child: ElevatedButton(
         onPressed: () => _showTextInputDialog(context),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueAccent,
-          foregroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
-        child: const Text("Save Preset"),
+        child: const Text("Guardar Preset", style: TextStyle(fontWeight: FontWeight.w500),),
       ),
     );
   }

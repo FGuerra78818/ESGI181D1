@@ -12,8 +12,6 @@ class PresetManager {
 
   // Async factory constructor
   static Future<PresetManager> create() async {
-    final manager = FileManager();
-
     // Create an instance of PresetManager with default presets
     PresetManager presetManager = PresetManager({"PRESETS": {}});
 
@@ -98,9 +96,42 @@ class PresetManager {
 
   void deletePreset(String pName) async{
     if (doesPresetAlreadyExist(pName)){
-      presets.remove(pName);
+      presets["PRESETS"].remove(pName);
       await writePresets();
+      presets = await loadPresets();
     }
   }
 
+  Future<bool> exportPresets() async {
+    try {
+      if(!await manager.doesDirFileExist("presets.json")) {
+        Map<String, dynamic> defaultPreset = {"PRESETS" : {}};
+        await manager.initializeJsonFile("presets.json", defaultPreset);
+      }
+      Map<String, dynamic> preset = await manager.readDirJsonFile("presets.json");
+
+      bool exported = await manager.exportFile(preset.toString());
+
+      return exported;
+    } catch (e){
+      return false;
+    }
+  }
+
+  Future<bool> importPresets() async {
+    Map<String, dynamic>? newPresets = await manager.importJsonFile();
+    if (newPresets != null){
+      presets = newPresets;
+      writePresets();
+
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> deleteDirFile() async{
+    await manager.deleteDirFile('presets.json');
+    presets = await loadPresets();
+
+  }
 }

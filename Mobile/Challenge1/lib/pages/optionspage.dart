@@ -34,9 +34,9 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: buildAppBar(context),
-      bottomNavigationBar: NavBar(),
+      bottomNavigationBar: NavBar(currentIndex: 1,),
       body: Consumer<OptionsState>(
         builder: (context, optionsState, child) {
           if (!optionsState.hasBeenLoaded) {
@@ -70,7 +70,6 @@ class _OptionsPageState extends State<OptionsPage> {
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
-                color: Colors.black,
               ),
             ),
           ),
@@ -85,6 +84,7 @@ class _OptionsPageState extends State<OptionsPage> {
                     leading: Radio<RecipientTypes>(
                       value: RecipientTypes.VAT,
                       groupValue: _type,
+                      activeColor: Theme.of(context).colorScheme.tertiary,
                       onChanged: (RecipientTypes? value) {
                         setState(() {
                           _type = value;
@@ -132,7 +132,6 @@ class _OptionsPageState extends State<OptionsPage> {
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black,
                             ),),),),
                         LayoutBuilder(
                             builder: (context, constrains) {
@@ -151,6 +150,7 @@ class _OptionsPageState extends State<OptionsPage> {
                                               leading: Radio<Param>(
                                                   value: param,
                                                   groupValue: option.params[option.selected],
+                                                  activeColor: Theme.of(context).colorScheme.tertiary,
                                                   onChanged: (Param? value) {
                                                     setState(() {_handleRadioChange(option.name, param.id);});
 

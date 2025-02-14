@@ -10,17 +10,16 @@ AppBar buildAppBar(BuildContext context) {
     title: const Text(
       'Cubicagem',
       style: TextStyle(
-        color: Colors.black,
         fontWeight: FontWeight.w800,
       ),
     ),
     centerTitle: true,
-    backgroundColor: const Color(0xFFFFF0C2),
+    backgroundColor: Theme.of(context).colorScheme.primary,
     actions: isSettingsPage
         ? null // Hide actions if on the settings page
         : [
       IconButton(
-        icon: const Icon(Icons.settings, color: Colors.black),
+        icon: const Icon(Icons.settings),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             // Option 1: Use a named route if you have defined one.
