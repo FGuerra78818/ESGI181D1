@@ -19,10 +19,12 @@ class ValuesPage extends StatefulWidget {
 class _ValuesPageState extends State<ValuesPage> {
   final List<TextEditingController> _controllers = [];
   bool _isSnackBarActive = false;
+  late final bool _hasBeenLoaded;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _hasBeenLoaded = Provider.of<OptionsState>(context, listen: false).hasBeenLoaded;
     _initializeControllers();
   }
 
@@ -47,11 +49,10 @@ class _ValuesPageState extends State<ValuesPage> {
 
   @override
   void dispose() {
-    if (!Provider.of<OptionsState>(context, listen: false).hasBeenLoaded) {
-      return;
-    }
-    for (final controller in _controllers) {
-      controller.dispose();
+    if (_hasBeenLoaded) {
+      for (final controller in _controllers) {
+        controller.dispose();
+      }
     }
     super.dispose();
   }
@@ -411,7 +412,7 @@ class _PresetSelectorState extends State<PresetSelector>{
               : ListView.builder(
                 shrinkWrap: true,
                 itemCount: presetNames.length,
-                itemBuilder: (context, index){
+                itemBuilder: (BuildContext dialogContext, index){
                   final presetName = presetNames[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
@@ -442,7 +443,7 @@ class _PresetSelectorState extends State<PresetSelector>{
                             IconButton(
                               icon: const Icon(Icons.delete, color: Colors.red),
                               onPressed: () {
-                                _confirmDelete(context, presetName);
+                                _confirmDelete(dialogContext, presetName);
                               },
                             ),
                           ],
@@ -568,7 +569,7 @@ class _PresetSaveWidgetState extends State<PresetSaveWidget> {
   void _savePreset(BuildContext context, String presetName) async {
     final optionsState = Provider.of<OptionsState>(context, listen: false);
 
-    if (await optionsState.pres.doesPresetAlreadyExist(presetName)) {
+    if (optionsState.pres.doesPresetAlreadyExist(presetName)) {
       // Show overwrite confirmation dialog
       _showOverwriteConfirmationDialog(context, presetName);
     } else {

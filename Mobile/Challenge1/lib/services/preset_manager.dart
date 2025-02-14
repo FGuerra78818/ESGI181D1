@@ -88,7 +88,11 @@ class PresetManager {
           ? words.sublist(0, words.length - 1).join(' ')
           : '';
 
-      conf.updateValue(lastWord, remainingWords, Decimal.parse((values.value)));
+      final parsedValue = values.value is String
+          ? Decimal.parse(values.value)
+          : Decimal.parse(values.value.toString());
+
+      conf.updateValue(lastWord, remainingWords, parsedValue);
     }
     return conf;
   }
