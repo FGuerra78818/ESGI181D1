@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 ThemeData darkTheme1 = ThemeData(
   fontFamily: 'Poppins',
   brightness: Brightness.dark,
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Color(0xFF717171),
+  ),
   colorScheme: const ColorScheme(
     brightness: Brightness.dark,
     primary: Color(0xFF141F2A), // Vibrant purple for primary

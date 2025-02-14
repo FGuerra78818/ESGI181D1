@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 ThemeData lightTheme1 = ThemeData(
   fontFamily: 'Poppins',
   brightness: Brightness.light,
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Color(0xFF555555),
+  ),
   colorScheme: const ColorScheme.light(
     primary: Color(0xFFFFF0C2),        // Your primary color
     onPrimary: Colors.black87,      // Color for text/icons on primary
