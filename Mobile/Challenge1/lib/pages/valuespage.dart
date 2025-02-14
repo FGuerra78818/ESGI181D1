@@ -1,6 +1,7 @@
 import 'package:challenge1/pages/optionState.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:pair/pair.dart';
 import 'package:provider/provider.dart';
@@ -162,7 +163,9 @@ class _ValuesPageState extends State<ValuesPage> {
         Row(
           children: [
             Expanded(
-              child: ElevatedButton(
+              child: Padding(padding: const EdgeInsets.only(top: 5.0)
+                ,child:
+              ElevatedButton(
                 onPressed: _handleCalculate,
                 style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -170,7 +173,7 @@ class _ValuesPageState extends State<ValuesPage> {
               ),
                 child: const Text("Calcular", style: TextStyle(fontWeight: FontWeight.w500),
               ),
-            ),
+            ),),
             )
           ],
         ),
@@ -526,8 +529,8 @@ class _PresetSaveWidgetState extends State<PresetSaveWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: ElevatedButton(
+      padding: const EdgeInsets.only(top: 5.0),
+      child:ElevatedButton(
         onPressed: () => _showTextInputDialog(context),
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.secondary,

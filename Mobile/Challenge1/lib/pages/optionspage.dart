@@ -52,128 +52,148 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   Widget buildSingleChildScrollView() {
-    final double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final double paddingTop = screenHeight * 0.04; // 7.5%
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double paddingTop = screenHeight * 0.04;
 
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: paddingTop),
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: const Text(
-              'Seleciona o tipo',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: ListTile(
-                    title: const Text('Cuba'),
-                    leading: Radio<RecipientTypes>(
-                      value: RecipientTypes.VAT,
-                      groupValue: _type,
-                      activeColor: Theme.of(context).colorScheme.tertiary,
-                      onChanged: (RecipientTypes? value) {
-                        setState(() {
-                          _type = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListTile(
-                    title: const Text('Pipa'),
-                    leading: Radio<RecipientTypes>(
-                      value: RecipientTypes.BARREL,
-                      groupValue: _type,
-                      onChanged: (RecipientTypes? value) {
-                        setState(() {
-                          _type = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
-                children: [
-                  Builder(
-                    builder: (_) {
-                      return const SizedBox.shrink(); // Placeholder widget for print
-                    },
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text(
+                      'Tipo de Recipiente',
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  if (_type == RecipientTypes.VAT) ...[
+                ),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        SizedBox(
+                          width: constraints.maxWidth / 2 - 12,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: const Text('Cuba'),
+                            leading: Radio<RecipientTypes>(
+                              value: RecipientTypes.VAT,
+                              groupValue: _type,
+                              activeColor: Theme.of(context).colorScheme.tertiary,
+                              onChanged: (RecipientTypes? value) {
+                                setState(() {
+                                  _type = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: constraints.maxWidth / 2 - 12,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: const Text('Pipa'),
+                            leading: Radio<RecipientTypes>(
+                              value: RecipientTypes.BARREL,
+                              groupValue: _type,
+                              activeColor: Theme.of(context).colorScheme.tertiary,
+                              onChanged: (RecipientTypes? value) {
+                                setState(() {
+                                  _type = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                if (_type == RecipientTypes.VAT) ...[
                   for (var option in Provider.of<OptionsState>(context, listen: false).conf.options)
                     Column(
                       children: [
-                      Align(
-                      alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            option.name,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                            ),),),),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              option.name,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
                         LayoutBuilder(
-                            builder: (context, constrains) {
-                              return Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  for (final param in option.params)
-                                    if (param.name.isNotEmpty)
-                                      if (!option.isCheckbox)
-                                        SizedBox(
-                                            width: constrains.maxWidth /2 - 12,
-                                            child: ListTile(
-                                              contentPadding: EdgeInsets.zero,
-                                              title: Text(param.name),
-                                              leading: Radio<Param>(
-                                                  value: param,
-                                                  groupValue: option.params[option.selected],
-                                                  activeColor: Theme.of(context).colorScheme.tertiary,
-                                                  onChanged: (Param? value) {
-                                                    setState(() {_handleRadioChange(option.name, param.id);});
-
-                                                  }
-                                              ),
-                                            ),)
-                                      else
-                                        Row( crossAxisAlignment: CrossAxisAlignment.start, children: [Transform.translate(offset: const Offset(8, 0), child: Checkbox(
-                                        value: option.selected == 1,
-                                        onChanged: (value) => _handleCheckboxChange(option.name, param.id, option.selected),
-                                      ))])
-                                ],
-                              );
-                            },
+                          builder: (context, constraints) {
+                            return Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                for (final param in option.params)
+                                  if (param.name.isNotEmpty)
+                                    if (!option.isCheckbox)
+                                      SizedBox(
+                                        width: constraints.maxWidth / 2 - 12,
+                                        child: ListTile(
+                                          contentPadding: EdgeInsets.zero,
+                                          title: Text(param.name),
+                                          leading: Radio<Param>(
+                                            value: param,
+                                            groupValue: option.params[option.selected],
+                                            activeColor: Theme.of(context).colorScheme.tertiary,
+                                            onChanged: (Param? value) {
+                                              setState(() {
+                                                _handleRadioChange(option.name, param.id);
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      )
+                                    else
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Transform.translate(
+                                            offset: const Offset(8, 0),
+                                            child: Checkbox(
+                                              value: option.selected == 1,
+                                              onChanged: (value) =>
+                                                  _handleCheckboxChange(option.name, param.id, option.selected),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                              ],
+                            );
+                          },
                         ),
                         const SizedBox(height: 16),
-                    ],
-                  ),
-                ]],
+                      ],
+                    ),
+                ]
+              ],
+            ),
           ),
-          )]),
-      );
+        ],
+      ),
+    );
   }
+
 
   void _handleCheckboxChange(String option, int param, int value)  {
     if (value == 1) {
