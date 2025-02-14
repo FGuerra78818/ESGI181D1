@@ -2,12 +2,13 @@ import 'package:challenge1/pages/optionState.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pair/pair.dart';
 import 'package:provider/provider.dart';
 
-import 'homepage.dart';
-import 'optionspage.dart';
+
+import 'package:challenge1/partials/nav_bar.dart';
+import 'package:challenge1/partials/app_bar.dart';
+
 
 class ValuesPage extends StatefulWidget {
   const ValuesPage({super.key});
@@ -20,12 +21,18 @@ class _ValuesPageState extends State<ValuesPage> {
   final List<TextEditingController> _controllers = [];
   bool _isSnackBarActive = false;
   late final bool _hasBeenLoaded;
+  bool _isInitialized = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _hasBeenLoaded = Provider.of<OptionsState>(context, listen: false).hasBeenLoaded;
-    _initializeControllers();
+    if (!_isInitialized) {
+      _hasBeenLoaded = Provider
+          .of<OptionsState>(context, listen: false)
+          .hasBeenLoaded;
+      _initializeControllers();
+      _isInitialized = true;
+    }
   }
 
   void _initializeControllers() {
@@ -61,7 +68,7 @@ class _ValuesPageState extends State<ValuesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
+      appBar: buildAppBar(context),
       body: Consumer<OptionsState>(
         builder: (context, optionsState, child) {
           if (!optionsState.hasBeenLoaded){
@@ -71,7 +78,7 @@ class _ValuesPageState extends State<ValuesPage> {
           }
         }
       ),
-      bottomNavigationBar: buildBottomNavigationBar(),
+      bottomNavigationBar: const NavBar(),
     );
   }
 
@@ -213,61 +220,6 @@ class _ValuesPageState extends State<ValuesPage> {
         .then((_) => setState(() => _isSnackBarActive = false));
   }
 
-  BottomNavigationBar buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      backgroundColor: const Color(0xFFFFF0C2),
-      currentIndex: 2,
-      onTap: _handleNavigation,
-      selectedItemColor: Colors.black,
-      type: BottomNavigationBarType.fixed,
-      items: [
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            'assets/icons/home.svg',
-            height: 25,
-            width: 30,
-          ),
-          label: "HOME",
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            'assets/icons/setting.svg',
-            height: 25,
-            width: 30,
-          ),
-          label: "OPTIONS",
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            'assets/icons/map.svg',
-            height: 25,
-            width: 30,
-          ),
-          label: "VALUES",
-        ),
-      ],
-      selectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.w900,
-      ),
-      unselectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.w900,
-      ),
-    );
-  }
-
-  void _handleNavigation(int index) {
-    final routes = [
-      const HomePage(),
-      const OptionsPage(),
-      const ValuesPage(),
-    ];
-
-    Navigator.of(context).push(PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => routes[index],
-      transitionDuration: Duration.zero,
-      reverseTransitionDuration: Duration.zero,
-    ));
-  }
   int _getStartingIndex(MapEntry<String, List<Pair<String, Decimal>>> currentEntry) {
     final neededValues = Provider.of<OptionsState>(context, listen: false)
         .conf

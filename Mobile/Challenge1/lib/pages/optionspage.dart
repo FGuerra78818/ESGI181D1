@@ -1,10 +1,9 @@
-
-import 'package:challenge1/pages/valuespage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:challenge1/pages/homepage.dart';
 import 'package:challenge1/pages/optionState.dart';
 import 'package:provider/provider.dart';
+
+import 'package:challenge1/partials/app_bar.dart';
+import 'package:challenge1/partials/nav_bar.dart';
 
 import '../classes/param.dart';
 
@@ -36,8 +35,8 @@ class _OptionsPageState extends State<OptionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
-      appBar: buildAppBar(),
-      bottomNavigationBar: buildBottomNavigationBar(),
+      appBar: buildAppBar(context),
+      bottomNavigationBar: NavBar(),
       body: Consumer<OptionsState>(
         builder: (context, optionsState, child) {
           if (!optionsState.hasBeenLoaded) {
@@ -52,14 +51,6 @@ class _OptionsPageState extends State<OptionsPage> {
     );
   }
 
-
-  AppBar buildAppBar() {
-    return AppBar(
-      title: const Text('Cubicagem',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800),),
-      centerTitle: true,
-      backgroundColor: const Color(0xFFFFF0C2),
-    );
-  }
   Widget buildSingleChildScrollView() {
     final double screenHeight = MediaQuery
         .of(context)
@@ -184,49 +175,6 @@ class _OptionsPageState extends State<OptionsPage> {
       );
   }
 
-  BottomNavigationBar buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      backgroundColor: const Color(0xFFFFF0C2),
-      currentIndex: 1,
-      onTap: _navigate,
-      selectedItemColor: Colors.black,
-      type: BottomNavigationBarType.fixed,
-      items: [
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            'assets/icons/home.svg',
-            height: 25,
-            width: 30,
-          ),
-          label: "HOME",
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            'assets/icons/setting.svg',
-            height: 25,
-            width: 30,
-          ),
-          label: "OPTIONS",
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            'assets/icons/map.svg',
-            height: 25,
-            width: 30,
-          ),
-          label: "VALUES",
-        ),
-      ],
-      selectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.w900,
-      ),
-      unselectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.w900,
-      ),
-    );
-  }
-
-
   void _handleCheckboxChange(String option, int param, int value)  {
     if (value == 1) {
       Provider.of<OptionsState>(context, listen: false)
@@ -240,31 +188,6 @@ class _OptionsPageState extends State<OptionsPage> {
 
   void _handleRadioChange(String option, int param){
     Provider.of<OptionsState>(context, listen: false).conf.handleSelectedChange(option, param);
-  }
-
-  void _navigate(int index) {
-    switch (index) {
-      case 0:
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation,
-              secondaryAnimation) => const HomePage(),
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero,
-        ));
-        break;
-      case 1:
-      // Current page is OptionsPage, no need to navigate
-        break;
-      case 2:
-        //print("olá: ${Provider.of<OptionsState>(context).selectedOptions} , ${Provider.of<OptionsState>(context).radioOptionsSelected} ");
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation,
-              secondaryAnimation) => const ValuesPage(),
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero,
-        ));
-        break;
-    }
   }
 
 }

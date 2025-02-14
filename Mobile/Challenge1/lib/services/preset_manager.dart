@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:challenge1/services/config_manager.dart';
 import 'package:challenge1/services/file_manager.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/cupertino.dart';
 
 class PresetManager {
 
