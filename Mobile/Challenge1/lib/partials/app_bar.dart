@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:challenge1/pages/settingsPage.dart';
 
+import 'package:challenge1/pages/previewpage.dart';
+
 AppBar buildAppBar(BuildContext context) {
   // Determine if the current page is the Settings page.
   // Adjust the '/settings' string to match your routing.
@@ -18,6 +20,15 @@ AppBar buildAppBar(BuildContext context) {
     actions: isSettingsPage
         ? null // Hide actions if on the settings page
         : [
+        IconButton(
+          icon: const Icon(Icons.show_chart),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PreviewPage()),
+            );
+          },
+        ),
       IconButton(
         icon: const Icon(Icons.settings),
         onPressed: () {
@@ -30,6 +41,7 @@ AppBar buildAppBar(BuildContext context) {
           ));
         },
       ),
+
     ],
   );
 }

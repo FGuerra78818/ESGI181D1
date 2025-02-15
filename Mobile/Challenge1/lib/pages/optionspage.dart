@@ -52,9 +52,6 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   Widget buildSingleChildScrollView() {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double paddingTop = screenHeight * 0.04;
-
     return SingleChildScrollView(
       child: Column(
         children: [
