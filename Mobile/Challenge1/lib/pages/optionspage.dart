@@ -29,7 +29,7 @@ class _OptionsPageState extends State<OptionsPage> {
     _type = Provider.of<OptionsState>(context, listen: false).type == "VAT" ? RecipientTypes.VAT : RecipientTypes.BARREL;
   }
 
-  RecipientTypes? _type = RecipientTypes.VAT;
+  RecipientTypes? _type;
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +89,7 @@ class _OptionsPageState extends State<OptionsPage> {
                               groupValue: _type,
                               activeColor: Theme.of(context).colorScheme.tertiary,
                               onChanged: (RecipientTypes? value) {
+                                Provider.of<OptionsState>(context, listen: false).swapType();
                                 setState(() {
                                   _type = value;
                                 });
@@ -106,6 +107,7 @@ class _OptionsPageState extends State<OptionsPage> {
                               groupValue: _type,
                               activeColor: Theme.of(context).colorScheme.tertiary,
                               onChanged: (RecipientTypes? value) {
+                                Provider.of<OptionsState>(context, listen: false).swapType();
                                 setState(() {
                                   _type = value;
                                 });

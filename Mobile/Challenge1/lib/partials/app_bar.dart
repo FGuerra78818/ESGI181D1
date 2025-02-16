@@ -1,7 +1,9 @@
+import 'package:challenge1/pages/optionState.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge1/pages/settingsPage.dart';
 
 import 'package:challenge1/pages/previewpage.dart';
+import 'package:provider/provider.dart';
 
 AppBar buildAppBar(BuildContext context) {
   // Determine if the current page is the Settings page.
@@ -20,6 +22,7 @@ AppBar buildAppBar(BuildContext context) {
     actions: isSettingsPage
         ? null // Hide actions if on the settings page
         : [
+          if (Provider.of<OptionsState>(context).type == "VAT")
         IconButton(
           icon: const Icon(Icons.remove_red_eye),
           onPressed: () {

@@ -33,7 +33,17 @@ class OptionsState extends ChangeNotifier {
 
   List<Pair<String, String>> get encoded => _encoded;
   bool get hasBeenLoaded => _hasBeenLoaded;
+
   String get type => _type;
+
+  void swapType(){
+    if (_type == "VAT"){
+      _type = "BARREL";
+    } else {
+      _type = "VAT";
+    }
+    notifyListeners();
+  }
 
   Future<void> setThemeMode(ThemeMode mode) async {
     themeMode = mode;
