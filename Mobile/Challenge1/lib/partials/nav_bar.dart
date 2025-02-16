@@ -50,7 +50,9 @@ class NavBar extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primary,
       currentIndex: currentIndex,
       onTap: (index) => _navigate(context, index),
-      selectedItemColor: Colors.black,
+      selectedItemColor: Theme.of(context).colorScheme.onPrimary,
+      selectedFontSize: 15,
+      unselectedFontSize: 12,
       unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
       type: BottomNavigationBarType.fixed,
       items: [
@@ -59,7 +61,7 @@ class NavBar extends StatelessWidget {
             'assets/icons/home.svg',
             height: 25,
             width: 30,
-            color: currentIndex == 0 ? Colors.black : Colors.grey,
+            color: currentIndex == 0 ? Theme.of(context).colorScheme.onPrimary : Colors.grey,
           ),
           label: "HOME",
         ),
@@ -68,7 +70,7 @@ class NavBar extends StatelessWidget {
             'assets/icons/setting.svg',
             height: 25,
             width: 30,
-            color: currentIndex == 1 ? Colors.black : Colors.grey,
+            color: currentIndex == 1 ? Theme.of(context).colorScheme.onPrimary : Colors.grey,
           ),
           label: "OPTIONS",
         ),
@@ -77,17 +79,17 @@ class NavBar extends StatelessWidget {
             'assets/icons/map.svg',
             height: 25,
             width: 30,
-            color: currentIndex == 2 ? Colors.black : Colors.grey,
+            color: currentIndex == 2 ? Theme.of(context).colorScheme.onPrimary : Colors.grey,
           ),
           label: "VALUES",
         ),
       ],
-      selectedLabelStyle: const TextStyle(
+      selectedLabelStyle: TextStyle(
         fontWeight: FontWeight.w900,
-        color: Colors.black,
+        color: Theme.of(context).colorScheme.onPrimary,
       ),
-      unselectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.w900,
+      unselectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.w600,
       ),
     );
   }

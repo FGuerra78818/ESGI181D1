@@ -21,10 +21,14 @@ class GraphWidget extends StatelessWidget {
           }
           final points = getPoints(conf, snapshot.data!);
           final values = getValues(conf, snapshot.data!);
-          return CustomPaint(
-            painter: GraphPainter(pointCoords: values, selectedPoints: points),
-            child: Container(),
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return CustomPaint(
+                painter: GraphPainter(pointCoords: values, selectedPoints: points, colour: Theme.of(context).colorScheme.onPrimary),
+              );
+            },
           );
+
         } else {
           return CircularProgressIndicator();
         }
@@ -36,13 +40,14 @@ class GraphWidget extends StatelessWidget {
 class GraphPainter extends CustomPainter {
   final List<List<String>> selectedPoints;
   final Map<String, List<double>> pointCoords;
+  final colour;
 
-  GraphPainter({required this.selectedPoints, required this.pointCoords});
+  GraphPainter({required this.selectedPoints, required this.pointCoords, required this.colour});
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black
+      ..color = colour
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 
@@ -51,7 +56,7 @@ class GraphPainter extends CustomPainter {
     pointCoords.forEach((key, value) {
       scaledPoints[key] = Offset(
         value[0].toDouble() / 5 * size.width,  // Assuming max x is 5
-        (value[1].toDouble() / 8) * size.height * 0.75,  // Assuming max y is 8, and inverting y-axis
+        (value[1].toDouble() / 7.5) * size.height,  // Assuming max y is 8, and inverting y-axis
       );
     });
     Map<String, Offset> pointsToShow = {};
@@ -91,7 +96,7 @@ class GraphPainter extends CustomPainter {
 
     // Draw points
     final pointPaint = Paint()
-      ..color = Colors.black
+      ..color = colour
       ..strokeWidth = 4
       ..style = PaintingStyle.fill;
 
@@ -120,14 +125,11 @@ List<List<String>> getPoints(ConfigManager conf, Map<String, dynamic> json) {
       if (optData.containsKey(opt.params[opt.selected].name)) {
         var points = optData[opt.params[opt.selected].name];
         if (points is! List){
-            print(points);
           for (final opt2 in conf.options){
             if (points.containsKey(opt2.name)) {
               var optData2 = points[opt2.name] as Map<String, dynamic>;
-              print(optData2);
               if (optData2.containsKey(opt2.params[opt2.selected].name)) {
                 points = optData2[opt2.params[opt2.selected].name];
-                print(points);
                 break;
               }
             }

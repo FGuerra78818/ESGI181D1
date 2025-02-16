@@ -21,7 +21,7 @@ AppBar buildAppBar(BuildContext context) {
         ? null // Hide actions if on the settings page
         : [
         IconButton(
-          icon: const Icon(Icons.show_chart),
+          icon: const Icon(Icons.remove_red_eye),
           onPressed: () {
             Navigator.push(
               context,
