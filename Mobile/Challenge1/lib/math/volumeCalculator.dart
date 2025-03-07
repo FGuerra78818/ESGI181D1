@@ -24,7 +24,7 @@ class VolumeCalculator {
       bool fundoSimCheckBox = config.isSelected("Fundo", "Sim");
       bool portaOvalCheckBox = config.isSelected("Formato Porta", "Oval");
       bool portaRetangularCheckBox = !portaOvalCheckBox;
-      bool portaDentro = config.isSelected("Porta", "Dentro");
+      bool portaDentro = config.isSelected("Porta", "Interior");
 
       // Retrieve numeric values from config
       Decimal diametroPescoco = config.getValue("Diametro", "Pescoço");
@@ -70,12 +70,14 @@ class VolumeCalculator {
       print("Ângulo Pescoço: $anguloPescoco");
       print("Diâmetro Pescoço: $diametroPescoco");
       print("Diâmetro Base: $diametroBase");
+      print("Hipotenusa Topo: $hipotenusa");
       print("Arredondamento Base: $arredondamentoBase");
       print("Tipo de Porta: ${portaOvalCheckBox ? "Oval" : portaRetangularCheckBox ? "Retangular" : "Nenhuma"}");
       print("Espessura da Porta: $espessura");
       print("Eixo Maior Porta: $diametroGrandePorta");
       print("Eixo Menor Porta: $diametroPequenoPorta");
       print("Posição da Porta: ${portaDentro ? "Interior" : "Exterior"}");
+      print("Fundo S/N: $fundoSimCheckBox");
       print("Diametro Tubo: $diametroTubo");
       print("Hipotenusa Fundo: $hipotenusaFundo");
       print("Compimento Tubo: $comprimentoTubo");
@@ -147,9 +149,12 @@ class VolumeCalculator {
       if (coneBaseCheckBox) {
         Decimal alturaBase = Decimal.zero;
 
-        if (!fundoSimCheckBox){
+        if (fundoSimCheckBox){
             alturaBase = config.getValue("Altura Base", "Geral");
         } else {
+          print(alturaTotal);
+          print(alturaAux);
+          alturaBase = alturaTotal - alturaAux;
 
           Decimal volumeFundoReto = (pi * raioBase * raioBase *
               arredondamentoBase);
@@ -169,8 +174,7 @@ class VolumeCalculator {
         }
 
           Decimal volumeBase = (Decimal.one / Decimal.fromInt(3)).toDecimal(scaleOnInfinitePrecision: 31) *
-              Decimal.parse(math.pi.toString()) * alturaBase *
-              ((raioBaixoTopo * raioBaixoTopo) + (raioBase * raioBase) + (raioBase * raioBaixoTopo));
+              pi * alturaBase *  ((raioBaixoTopo * raioBaixoTopo) + (raioBase * raioBase) + (raioBase * raioBaixoTopo));
 
           print("Volume Base Cone: $volumeBase");
 
@@ -204,6 +208,7 @@ class VolumeCalculator {
           print("Diferença Fundo Arr: ${diferencaFundo}");
           volumeTotal -= diferencaFundo;
         }
+
         Decimal areaBase = pi * raioBase * raioBase;
 
         volumeBase = areaBase * alturaBase;
