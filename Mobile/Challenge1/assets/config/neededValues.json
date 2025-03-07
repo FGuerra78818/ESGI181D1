@@ -20,10 +20,10 @@
       },
       "Base" : {
         "Cilindro" : {
-          "Base" : ["Diametro"]
+          "Base" : ["Diametro","Arredondamento"]
         },
         "Cone" : {
-          "Base" : ["Diametro"],
+          "Base" : ["Diametro","Arredondamento"],
           "Topo" : ["Hipotenusa"]
         }
       },
@@ -33,7 +33,7 @@
         },
         "Desviado" : {
           "Pescoço" :
-        ["Diametro", "Altura Menor", "Altura Maior", "Angulo"]
+        ["Diametro", "Altura Menor", "Altura Maior"]
         }
       },
       "Pescoço Adicional" : {

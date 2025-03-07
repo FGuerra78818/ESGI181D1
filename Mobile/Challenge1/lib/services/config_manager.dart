@@ -166,4 +166,15 @@ class ConfigManager {
     }
     return res;
   }
+
+  bool isSelected(String optName, String paramName){
+    for (var opt in options){
+      if (opt.name == optName){
+        if (opt.params[opt.selected].name == paramName) return true;
+      }
+    }
+    return false;
+  }
+
+
 }
