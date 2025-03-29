@@ -1,4 +1,4 @@
-import 'package:challenge1/pages/optionState.dart';
+import 'package:challenge1/services/optionState.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 import 'package:challenge1/partials/nav_bar.dart';
 import 'package:challenge1/partials/app_bar.dart';
+
+import 'calculationpage.dart';
 
 
 class ValuesPage extends StatefulWidget {
@@ -187,7 +189,13 @@ class _ValuesPageState extends State<ValuesPage> {
 
   void _handleCalculate() {
     if (!_validateFields()) return;
-    // Add calculation logic
+    // Optionally add any calculation logic here.
+
+    // Navigate to CalculationPage.
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CalculationPage()),
+    );
   }
 
   bool _validateFields() {
@@ -265,6 +273,8 @@ class ParameterInputRow extends StatelessWidget {
             controller: controller,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
+              hintText: "xxxx",
+
             ),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [

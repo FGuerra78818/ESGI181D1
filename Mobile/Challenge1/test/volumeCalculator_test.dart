@@ -320,7 +320,7 @@ void main() {
     Decimal expectedVolume = Decimal.parse("7200.26"); // Replace with actual expected volume
 
     expect(result.toString(), expectedVolume.toString(), reason: "Calculated volume does not match expected value.");
-  });;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  });
   test('Volume calculation should return expected value', () {
     config = presetManager.loadPreset(config, "SF13");
     Decimal result = calculator.calculateVolumeClick().round(scale: 2);
@@ -329,7 +329,7 @@ void main() {
     Decimal expectedVolume = Decimal.parse("14009.82"); // Replace with actual expected volume
 
     expect(result.toString(), expectedVolume.toString(), reason: "Calculated volume does not match expected value.");
-  });;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  });
 
   test('Volume calculation should return expected value', () {
     config = presetManager.loadPreset(config, "SF11");
@@ -339,7 +339,7 @@ void main() {
     Decimal expectedVolume = Decimal.parse("7250.19"); // Replace with actual expected volume
 
     expect(result.toString(), expectedVolume.toString(), reason: "Calculated volume does not match expected value.");
-  });;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  });
 
   test('Volume calculation should return expected value', () {
     config = presetManager.loadPreset(config, "F17");
@@ -349,6 +349,6 @@ void main() {
     Decimal expectedVolume = Decimal.parse("7123.95"); // Replace with actual expected volume
 
     expect(result.toString(), expectedVolume.toString(), reason: "Calculated volume does not match expected value.");
-  });;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  });
 });
 }

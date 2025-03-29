@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:challenge1/pages/optionState.dart';
+import 'package:challenge1/services/optionState.dart';
 import 'package:challenge1/services/config_manager.dart';
 import 'package:challenge1/services/file_manager.dart';
 import 'package:flutter/material.dart';

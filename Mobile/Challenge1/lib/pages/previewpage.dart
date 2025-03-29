@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:challenge1/partials/graph.dart';
 import 'package:challenge1/partials/app_bar.dart';
 
-import 'optionState.dart';
+import '../services/optionState.dart';
 
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key}) : super(key: key);

@@ -1,5 +1,6 @@
 
 import 'package:decimal/decimal.dart';
+import 'package:pair/pair.dart';
 import 'dart:math' as math;
 
 import '../services/config_manager.dart';
@@ -49,6 +50,7 @@ class VolumeCalculator {
       Decimal comprimentoTubo = config.getValue("Comprimento", "Fundo");
       Decimal alturaGrandePescoco = config.getValue("Altura Maior", "Pescoço");
       Decimal arredondamentoBase = config.getValue("Arredondamento", "Base");
+
       if (arredondamentoBase == Decimal.fromInt(-1)){
         arredondamentoBase = Decimal.fromInt(5);
       }
@@ -63,6 +65,7 @@ class VolumeCalculator {
       Decimal alturaAux = Decimal.zero;
       Decimal diferencaFundo = Decimal.zero;
 
+      /*
       // Print debug values
       print("Altura Total: $alturaTotal");
       print("Altura Pescoço: $alturaPequenaPescoco");
@@ -80,7 +83,8 @@ class VolumeCalculator {
       print("Fundo S/N: $fundoSimCheckBox");
       print("Diametro Tubo: $diametroTubo");
       print("Hipotenusa Fundo: $hipotenusaFundo");
-      print("Compimento Tubo: $comprimentoTubo");
+      print("Compimento Tubo: $comprimentoTubo");*/
+
       // 1) Handle Cone Base
       if (coneBaseCheckBox) {
         double anguloRad = (anguloPescoco.toDouble() - (90.0)) *
@@ -145,10 +149,11 @@ class VolumeCalculator {
       volumeTotal += volumePescoco + volumeTopo;
       alturaAux = alturaTopo + alturaPequenaPescoco;
 
-      // 4) Calculate Base Volume
-      if (coneBaseCheckBox) {
-        Decimal alturaBase = Decimal.zero;
+      Decimal alturaBase = Decimal.zero;
 
+      // 4) Calculate Base Volume
+      Decimal volumeBase = Decimal.zero;
+      if (coneBaseCheckBox) {
         if (fundoSimCheckBox){
             alturaBase = config.getValue("Altura Base", "Geral");
         } else {
@@ -173,17 +178,16 @@ class VolumeCalculator {
           volumeTotal -= diferencaFundo;
         }
 
-          Decimal volumeBase = (Decimal.one / Decimal.fromInt(3)).toDecimal(scaleOnInfinitePrecision: 31) *
+          volumeBase = (Decimal.one / Decimal.fromInt(3)).toDecimal(scaleOnInfinitePrecision: 31) *
               pi * alturaBase *  ((raioBaixoTopo * raioBaixoTopo) + (raioBase * raioBase) + (raioBase * raioBaixoTopo));
 
           print("Volume Base Cone: $volumeBase");
 
           volumeTotal += volumeBase;
       }
-      if (cilindroBaseCheckBox){
-        Decimal alturaBase = Decimal.zero;
-        Decimal volumeBase = Decimal.zero;
 
+
+      if (cilindroBaseCheckBox){
         if (fundoSimCheckBox){
           alturaBase = config.getValue("Altura Base", "Geral");
         }
@@ -221,7 +225,7 @@ class VolumeCalculator {
       }
       if (fundoSimCheckBox){
         Decimal raioTubo = (diametroTubo / Decimal.fromInt(2)).toDecimal();
-        
+
         Decimal cateto = raioBase - raioTubo;
         Decimal alturaFundo = Decimal.zero;
         try{
@@ -255,6 +259,21 @@ class VolumeCalculator {
         } else {
           volumeTotal += volumePorta;
         }
+        config.partials = [];
+
+        if (volumeTopo.round() != Decimal.zero){
+          config.partials.add(Pair("Volume Topo", (volumeTopo/Decimal.fromInt(1000)).toDecimal()));
+        }
+        if (volumeBase.round() != Decimal.zero){
+          config.partials.add(Pair("Volume Base", (volumeBase/Decimal.fromInt(1000)).toDecimal()));
+        }
+
+        config.partials.add(Pair("Volume Porta", (volumePorta/Decimal.fromInt(1000)).toDecimal()));
+        if (alturaTotal.round() == Decimal.zero){
+          alturaTotal = alturaAux + alturaBase;
+        }
+        config.partials.add(Pair("Altura Total", alturaTotal));
+        config.partials.add(Pair("Altura Base", alturaBase));
 
         print("Resultado Final (L): ${(volumeTotal / Decimal.fromInt(1000)).toDecimal(scaleOnInfinitePrecision: 31)}");
         return (volumeTotal / Decimal.fromInt(1000)).toDecimal(scaleOnInfinitePrecision: 31);
@@ -268,5 +287,8 @@ class VolumeCalculator {
     Decimal res = config.getValue(n1, n2);
     return res != Decimal.fromInt(-1) ? res : null;
   }
+
 }
+
+
 

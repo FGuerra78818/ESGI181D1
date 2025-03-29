@@ -1,5 +1,7 @@
+import 'package:challenge1/math/volumeCalculator.dart';
 import 'package:challenge1/services/preset_manager.dart';
 import 'package:challenge1/theme/theme_saver.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:pair/pair.dart';
 import 'package:challenge1/services/config_manager.dart';
@@ -94,6 +96,11 @@ class OptionsState extends ChangeNotifier {
   void savePreset(String pName){
     final presetData = conf.getJsonEncoding();
     pres.savePreset(pName, presetData);
+  }
+
+  Decimal calculateVolumeVal(){
+    final volumeCalculator = VolumeCalculator(conf);
+    return volumeCalculator.calculateVolumeClick();
   }
 
 

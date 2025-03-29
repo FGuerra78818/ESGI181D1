@@ -10,6 +10,7 @@ class ConfigManager {
   late Map<String, dynamic> JneededValues;
   List<Option> options = [];
   final type = "VAT";
+  List<Pair<String,Decimal>> partials = [];
   
   ConfigManager(this.Joptions, this.JneededValues);
 

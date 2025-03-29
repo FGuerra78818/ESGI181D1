@@ -5,7 +5,7 @@ import 'package:challenge1/pages/valuespage.dart';
 import 'package:challenge1/pages/homepage.dart';
 import 'package:provider/provider.dart';
 
-import '../pages/optionState.dart';
+import '../services/optionState.dart';
 
 class NavBar extends StatelessWidget {
   final int currentIndex;
@@ -40,6 +40,8 @@ class NavBar extends StatelessWidget {
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
         ));
+        break;
+      default:
         break;
     }
   }
